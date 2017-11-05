@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		transform.Translate = new Vector3(currentTile.getX(), currentTile.getY, 1);
+		//transform.Translate = new Vector3(currentTile.getX(), currentTile.getY, 1);
 	}
 	
 	// Update is called once per frame
@@ -33,17 +33,19 @@ public class PlayerControl : MonoBehaviour {
 	}
 
 	public void moveForward(){
-		switch(direction){
-			case 0:{
-				Tile target = board.getAdjacentUp(currentTile);
-				if(!target.getOccupied()) {}//Do stuff
+		switch (direction) {
+		case 0:
+			{
+				//Tile target = board.getAdjacentUp (currentTile);
+				//if (!target.getOccupied ()) {
+				//}//Do stuff
 				break;
 			}
 		//I need to know how the board is set up to do this.
 		//It will check to see if the space in front of it is empty or a puddle.
 		//If so, it will move into that space.
+		}
 	}
-
 	public void fireLaser(){
 		//I need information on the board.
 		//This will look at whatever is in the tile in front of it.

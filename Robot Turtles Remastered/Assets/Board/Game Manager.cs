@@ -6,12 +6,12 @@ public class GameManager : MonoBehaviour {
     public int moveSize;
     public bool isOccupied;
 	// Use this for initialization
-	void Start () {
+	void Start () {// set intial board conditions 
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {//update board in terms of actions done by users
 	
 	}
 }

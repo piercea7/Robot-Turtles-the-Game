@@ -9,9 +9,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	public Transform placeholderParent = null;
 
 	GameObject placeholder = null;
-	
+
 	public void OnBeginDrag(PointerEventData eventData) {
-		
+        Debug.Log("OnBeginDrag");
 		placeholder = new GameObject();
 		placeholder.transform.SetParent( this.transform.parent );
 		LayoutElement le = placeholder.AddComponent<LayoutElement>();
@@ -30,10 +30,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	}
 	
 	public void OnDrag(PointerEventData eventData) {
-		
-		this.transform.position = eventData.position;
+        Debug.Log("OnDrag");
+        this.transform.position = eventData.position;
 
-		if(placeholder.transform.parent != placeholderParent)
+        if(placeholder.transform.parent != placeholderParent)
 			placeholder.transform.SetParent(placeholderParent);
 
 		int newSiblingIndex = placeholderParent.childCount;
@@ -52,15 +52,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 		placeholder.transform.SetSiblingIndex(newSiblingIndex);
 
-	}
-	
-	public void OnEndDrag(PointerEventData eventData) {
-		this.transform.SetParent( parentToReturnTo );
+    }
+
+    public void OnEndDrag(PointerEventData eventData) {
+        Debug.Log("OnEndDrag");
+        this.transform.SetParent( parentToReturnTo );
 		this.transform.SetSiblingIndex( placeholder.transform.GetSiblingIndex() );
 		GetComponent<CanvasGroup>().blocksRaycasts = true;
-
-		Destroy(placeholder);
-	}
+        //GetComponent<Draggable>().enabled = false;
+        Destroy(placeholder);
+    }
 	
 	
 	

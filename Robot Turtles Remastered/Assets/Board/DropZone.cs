@@ -1,5 +1,6 @@
 ﻿//using Assets.Utils;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.EventSystems;
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -16,7 +17,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public DropZoneType zoneType = DropZoneType.Field;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log("OnPointerEnter");
+        Debug.Log("OnPointerEnter");
         if (eventData.pointerDrag == null)
             return;
 
@@ -54,7 +55,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
         if (d != null)
         {
-            if (zoneType == DropZoneType.Field)
+           /* if (zoneType == DropZoneType.Field)
             {
                 if (hasDraggableAlready())
                     return;
@@ -124,12 +125,13 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     {
                         logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , card.CardId , ControllerHelper.GameObjectToLocation(d.parentToReturnTo.gameObject) , ControllerHelper.GameObjectToLocation(gameObject));
                     }
-                }*/
+                }
                 DestroyObject(eventData.pointerDrag);
-            }
+            }*/
 
 
             d.parentToReturnTo = this.transform;
+            
         }
 
     }

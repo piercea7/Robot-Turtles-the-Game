@@ -7,12 +7,12 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public enum DropZoneType
     {
         Field,
-        WaitingRoom,
-        Memory,
-        Stock,
+        Discard,
+        FunctionZone,
+        TileZone,
         Hand,
-        Deck,
-        DialogBox
+        Deck
+        
     }
     public DropZoneType zoneType = DropZoneType.Field;
     public void OnPointerEnter(PointerEventData eventData)
@@ -28,11 +28,11 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
             if (zoneType == DropZoneType.Field)
             {
-                if (hasDraggableAlready())
+                if (HasDraggableAlready())
                     return;
             }
 
-            if (zoneType == DropZoneType.Field || zoneType == DropZoneType.Hand || zoneType == DropZoneType.DialogBox)
+            if (zoneType == DropZoneType.Field || zoneType == DropZoneType.Hand || zoneType == DropZoneType.FunctionZone)
                 d.placeholderParent = this.transform;
         }
     }
@@ -55,79 +55,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
         if (d != null)
         {
-           /* if (zoneType == DropZoneType.Field)
-            {
-                if (hasDraggableAlready())
-                    return;
-            }
-
-            if (zoneType == DropZoneType.Hand || zoneType == DropZoneType.Field || zoneType == DropZoneType.DialogBox)
-            {/*
-                if (d.parentToReturnTo != this.transform)//no double add
-                {
-                    WixossCard card = eventData.pointerDrag.GetComponent<WixCardComponent>().Card;
-                    PoolViewerScript logic = gameObject.GetComponent<PoolViewerScript>();
-                    PanelDragger dragger = d.parentToReturnTo.GetComponent<PanelDragger>();
-                    
-                    if (logic != null)
-                        logic.poolOfCards.Add(card);
-
-                    if (dragger != null)
-                    {
-                        PoolViewerScript oldScript = dragger.realParent.GetComponent<PoolViewerScript>();
-
-                        if (oldScript != null)
-                            oldScript.poolOfCards.Remove(card);
-
-                    }
-                    else
-                    {
-                        PoolViewerScript oldScript = d.parentToReturnTo.GetComponent<PoolViewerScript>();
-                        if (oldScript != null)
-                            oldScript.poolOfCards.Remove(card);
-                    }
-                    
-                    // Deal with networking
-                    if ( logic != null && logic.cardController.sendRPC )
-                    {
-                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardShowCardToX , PhotonTargets.Others , card.CardId , ControllerHelper.GameObjectToLocation(d.parentToReturnTo.gameObject) , ControllerHelper.GameObjectToLocation(gameObject));
-                    }
-                }
-            }
-            else
-            {
-                if (d.parentToReturnTo != this.transform)//no double add
-                {
-                    WixossCard card = eventData.pointerDrag.GetComponent<WixCardComponent>().Card;
-                    PoolViewerScript logic = gameObject.GetComponent<PoolViewerScript>();
-
-                    if (logic != null)
-                        logic.poolOfCards.Add(card);
-
-                    PanelDragger dragger = d.parentToReturnTo.GetComponent<PanelDragger>();
-                    if (dragger != null)
-                    {
-                        PoolViewerScript oldScript = dragger.realParent.GetComponent<PoolViewerScript>();
-
-                        if (oldScript != null)
-                            oldScript.poolOfCards.Remove(card);
-
-                    }
-                    else
-                    {
-                        PoolViewerScript oldScript = d.parentToReturnTo.GetComponent<PoolViewerScript>();
-                        if (oldScript != null)
-                            oldScript.poolOfCards.Remove(card);
-                    }
-
-                    // Deal with networking
-                    if ( logic != null && logic.cardController.sendRPC )
-                    {
-                        logic.cardController.getPhotonView().RPC(Constants.RPC_MoveCardToX , PhotonTargets.Others , card.CardId , ControllerHelper.GameObjectToLocation(d.parentToReturnTo.gameObject) , ControllerHelper.GameObjectToLocation(gameObject));
-                    }
-                }
-                DestroyObject(eventData.pointerDrag);
-            }*/
+          //logic for drop conditions go into here
 
 
             d.parentToReturnTo = this.transform;
@@ -136,7 +64,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
     }
 
-    private bool hasDraggableAlready()
+    private bool HasDraggableAlready()
     {
         return (this.GetComponentsInChildren(typeof(Draggable)).Length == 0) ? false : true;
     }

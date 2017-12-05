@@ -4,8 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
-    public void HotSeatPlayButton()
+    public void HotSeatPlayButton(string gameBoard)
     {
+        SceneManager.LoadScene(gameBoard);
+    }
+    public void backButton(string MainMenu)
+    {
+        SceneManager.LoadScene(MainMenu);
     }
     public void CreateLobbyButton(string CreateGame)
     {

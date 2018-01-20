@@ -45,7 +45,7 @@ public class GameBoard : Tile {
     }
     // Use this for initialization
     void Start () {
-	
+        Screen.SetResolution(1280, 720, true); //intial setting for the screen format width, height, fullscreen?, refresh rate 
 	}
 	
 	// Update is called once per frame

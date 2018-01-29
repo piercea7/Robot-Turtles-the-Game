@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,9 @@ public class runFunc : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GameObject Square_1 = GameObject.Find("Square 57");
+        GameObject Square_1 = GameObject.Find("57");
         GameObject curPlayer = (GameObject)Instantiate(Resources.Load("turtle_0"));
-        curPlayer.transform.SetParent(Square_1.transform);// = hand.transform;
+        curPlayer.transform.SetParent(Square_1.transform);
         //runFunct();
 
     }
@@ -25,9 +26,10 @@ public class runFunc : MonoBehaviour {
     public void runFunct()
     {
         
-        GameObject curPlayer = GameObject.Find("Turtle0(Clone)");
-        var parent = transform.parent.name;
-        Debug.Log(parent);
+        GameObject curPlayer = GameObject.Find("turtle_0(Clone)");
+        int parent = Convert.ToInt32(curPlayer.transform.parent.name);
+        Debug.Log("Parent = " + parent);
+        Debug.Log("parent - 1 = " + (parent - 1));
 
         GameObject hand = GameObject.Find("Function");
         foreach (Transform child in hand.transform)
@@ -38,7 +40,8 @@ public class runFunc : MonoBehaviour {
             {
                 if (curRot.z == -90)
                 {
-                    if (parent != "Square 1")
+                    //if (parent != "Square 1" || parent != "Square 2" || parent != "Square 3" || parent != "Square 4" || parent != "Square 5" || parent != "Square 6" || parent != "Square 7" || parent != "Square 8")
+
                     curPlayer.transform.Translate(Vector3.up * 2);//(Vector3.up * Time.deltaTime);
                 }
                 else if (curRot.z == 90)

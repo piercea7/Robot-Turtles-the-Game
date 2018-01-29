@@ -9,6 +9,7 @@ public class runFunc : MonoBehaviour {
 	void Start () {
         GameObject Square_1 = GameObject.Find("57");
         GameObject curPlayer = (GameObject)Instantiate(Resources.Load("turtle_0"));
+        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
         curPlayer.transform.SetParent(Square_1.transform);
         //runFunct();
 
@@ -27,72 +28,113 @@ public class runFunc : MonoBehaviour {
     {
         
         GameObject curPlayer = GameObject.Find("turtle_0(Clone)");
-        int parent = Convert.ToInt32(curPlayer.transform.parent.name);
-        Debug.Log("Parent = " + parent);
-        Debug.Log("parent - 1 = " + (parent - 1));
+        
+        //Debug.Log("Parent = " + parent);
+        //Debug.Log("parent - 1 = " + (parent - 8));
 
         GameObject hand = GameObject.Find("Function");
         foreach (Transform child in hand.transform)
         {
-            Vector3 curRot = curPlayer.transform.eulerAngles;
+            int parent = Convert.ToInt32(curPlayer.transform.parent.name);
+            Vector3 curRot = curPlayer.transform.transform.eulerAngles;
+            Debug.Log("curRot = " + curRot);
             string tag = child.tag;
             if (tag == "Forward")
             {
-                if (curRot.z == -90)
+                if (curRot.z == 270)
                 {
-                    //if (parent != "Square 1" || parent != "Square 2" || parent != "Square 3" || parent != "Square 4" || parent != "Square 5" || parent != "Square 6" || parent != "Square 7" || parent != "Square 8")
-
-                    curPlayer.transform.Translate(Vector3.up * 2);//(Vector3.up * Time.deltaTime);
+                    GameObject newPos = GameObject.Find((parent - 8).ToString());
+                    Debug.Log("newPos = " + newPos.transform.name);
+                    if (parent > 8 && newPos.transform.childCount == 0)
+                    {
+                        Debug.Log((parent - 8).ToString());
+                        curPlayer.transform.SetParent(newPos.transform);
+                    }
+                    else
+                    {
+                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                    }
+                    //curPlayer.transform.Translate(Vector3.up * 2);//(Vector3.up * Time.deltaTime);
                 }
                 else if (curRot.z == 90)
                 {
-                    curPlayer.transform.Translate(Vector3.down * 2);
+                    GameObject newPos = GameObject.Find((parent + 8).ToString());
+                    if (parent < 57 && newPos.transform.childCount == 0)
+                    {
+                        Debug.Log((parent + 8).ToString());
+                        curPlayer.transform.SetParent(newPos.transform);
+                    }
+                    else
+                    {
+                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+                    }
+                    //curPlayer.transform.Translate(Vector3.down * 2);
                 }
-                else if (curRot.z == 180 || curRot.z == -180)
+                else if (curRot.z == 180)
                 {
-                    curPlayer.transform.Translate(Vector3.up * 2);
+                    GameObject newPos = GameObject.Find((parent + 1).ToString());
+                    if ((parent % 8) != 0 && newPos.transform.childCount == 0)
+                    {
+                        Debug.Log((parent + 1).ToString());
+                        curPlayer.transform.SetParent(newPos.transform);
+                    }
+                    else
+                    {
+                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0));
+                    }
+                    //curPlayer.transform.Translate(Vector3.up * 2);
                 }
-                else if (curRot.z == -90)
+                else if (curRot.z == 0)
                 {
-                    curPlayer.transform.Translate(Vector3.down * 2);
+                    GameObject newPos = GameObject.Find((parent - 1).ToString());
+                    if ((((parent - 1) % 8) != 0 || parent == 1)  && newPos.transform.childCount == 0)
+                    {
+                        Debug.Log((parent - 1).ToString());
+                        curPlayer.transform.SetParent(newPos.transform);
+                    }
+                    else
+                    {
+                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 180));
+                    }
+                    //curPlayer.transform.Translate(Vector3.down * 2);
                 }
             }
             else if (tag == "Left")
             {
                 if (curRot.z == 0)
                 {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, -90));
+                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
                 }
-                else if (curRot.z == -90)
+                else if (curRot.z == 270)
                 {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 180));
+                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0));
                 }
                 else if (curRot.z == 180)
                 {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
                 }
                 else if (curRot.z == 90)
                 {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0));
+                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 180));
                 }
             }
             else if (tag == "Right")
             {
                 if (curRot.z == 0)
                 {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 90));
+                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 270));
                 }
                 else if (curRot.z == 90)
                 {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 180));
+                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0));
                 }
                 else if (curRot.z == 180)
                 {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, -90));
+                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, 90));
                 }
-                else if (curRot.z == -90)
+                else if (curRot.z == 270)
                 {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0));
+                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 180));
                 }
             }
             else if (tag == "Laser")

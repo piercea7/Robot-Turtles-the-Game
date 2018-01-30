@@ -5,12 +5,62 @@ using UnityEngine;
 
 public class runFunc : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        GameObject Square_1 = GameObject.Find("57");
-        GameObject curPlayer = (GameObject)Instantiate(Resources.Load("turtle_0"));
-        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
-        curPlayer.transform.SetParent(Square_1.transform);
+    // Use this for initialization
+    void Start()
+    {
+        int numPlayers = 2;
+        if (numPlayers == 4)
+        {
+            GameObject Square_1 = GameObject.Find("57");
+            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("59");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("62");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle2"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("64");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle3"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+        }
+        else if (numPlayers == 3)
+        {
+            GameObject Square_1 = GameObject.Find("58");
+            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("61");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("64");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle2"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+        }
+        else if (numPlayers == 2)
+        {
+            GameObject Square_1 = GameObject.Find("59");
+            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("63");
+            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
+            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
+            curPlayer.transform.SetParent(Square_1.transform);
+        }
+        
         //runFunct();
 
     }
@@ -45,10 +95,27 @@ public class runFunc : MonoBehaviour {
                 {
                     GameObject newPos = GameObject.Find((parent - 8).ToString());
                     Debug.Log("newPos = " + newPos.transform.name);
-                    if (parent > 8 && newPos.transform.childCount == 0)
+                    if (parent > 8)
                     {
-                        Debug.Log((parent - 8).ToString());
-                        curPlayer.transform.SetParent(newPos.transform);
+                        if (newPos.transform.childCount == 0)
+                        {
+                            Debug.Log((parent - 8).ToString());
+                            curPlayer.transform.SetParent(newPos.transform);
+                        } else if (newPos.transform.childCount > 0)
+                        {
+                            Transform c = newPos.transform.GetChild(0);
+                            if (c.tag == "Turtle")
+                            {
+                                //send both turtles to spawn location
+                            } else if (c.tag == "solidWall" || c.tag == "iceWall")
+                            {
+                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            } else
+                            {   //this should never happen
+                                //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                        }
+                        
                     }
                     else
                     {
@@ -59,10 +126,34 @@ public class runFunc : MonoBehaviour {
                 else if (curRot.z == 90)
                 {
                     GameObject newPos = GameObject.Find((parent + 8).ToString());
-                    if (parent < 57 && newPos.transform.childCount == 0)
+                    if (parent < 57)
                     {
-                        Debug.Log((parent + 8).ToString());
-                        curPlayer.transform.SetParent(newPos.transform);
+                        if (newPos.transform.childCount == 0)
+                        {
+                            Debug.Log((parent - 8).ToString());
+                            curPlayer.transform.SetParent(newPos.transform);
+                        }
+                        else if (newPos.transform.childCount == 1)
+                        {
+                            Transform c = newPos.transform.GetChild(0);
+                            if (c.tag == "Turtle")
+                            {
+                                //send both turtles to spawn location
+                            }
+                            else if (c.tag == "solidWall" || c.tag == "iceWall")
+                            {
+                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                            else if (c.tag == "Gem")
+                            {
+                                curPlayer.transform.SetParent(newPos.transform);
+                                //WIN SCREEN GOES HERE
+                            }
+                            else
+                            {   //this should never happen
+                                //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                        }
                     }
                     else
                     {
@@ -75,8 +166,32 @@ public class runFunc : MonoBehaviour {
                     GameObject newPos = GameObject.Find((parent + 1).ToString());
                     if ((parent % 8) != 0 && newPos.transform.childCount == 0)
                     {
-                        Debug.Log((parent + 1).ToString());
-                        curPlayer.transform.SetParent(newPos.transform);
+                        if (newPos.transform.childCount == 0)
+                        {
+                            Debug.Log((parent - 8).ToString());
+                            curPlayer.transform.SetParent(newPos.transform);
+                        }
+                        else if (newPos.transform.childCount > 0)
+                        {
+                            Transform c = newPos.transform.GetChild(0);
+                            if (c.tag == "Turtle")
+                            {
+                                //send both turtles to spawn location
+                            }
+                            else if (c.tag == "solidWall" || c.tag == "iceWall")
+                            {
+                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                            else if (c.tag == "Gem")
+                            {
+                                curPlayer.transform.SetParent(newPos.transform);
+                                //WIN SCREEN GOES HERE
+                            }
+                            else
+                            {   //this should never happen
+                                //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                        }
                     }
                     else
                     {
@@ -87,10 +202,34 @@ public class runFunc : MonoBehaviour {
                 else if (curRot.z == 0)
                 {
                     GameObject newPos = GameObject.Find((parent - 1).ToString());
-                    if ((((parent - 1) % 8) != 0 || parent == 1)  && newPos.transform.childCount == 0)
+                    if ((((parent - 1) % 8) != 0 || parent == 1) && newPos.transform.childCount == 0)
                     {
-                        Debug.Log((parent - 1).ToString());
-                        curPlayer.transform.SetParent(newPos.transform);
+                        if (newPos.transform.childCount == 0)
+                        {
+                            Debug.Log((parent - 8).ToString());
+                            curPlayer.transform.SetParent(newPos.transform);
+                        }
+                        else if (newPos.transform.childCount > 0)
+                        {
+                            Transform c = newPos.transform.GetChild(0);
+                            if (c.tag == "Turtle")
+                            {
+                                //send both turtles to spawn location
+                            }
+                            else if (c.tag == "solidWall" || c.tag == "iceWall")
+                            {
+                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                            else if (c.tag == "Gem")
+                            {
+                                curPlayer.transform.SetParent(newPos.transform);
+                                //WIN SCREEN GOES HERE
+                            }
+                            else
+                            {   //this should never happen
+                                //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
+                            }
+                        }
                     }
                     else
                     {

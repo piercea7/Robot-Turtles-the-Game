@@ -5,10 +5,102 @@ using UnityEngine;
 
 public class runFunc : MonoBehaviour {
 
+    void sendToStart(GameObject t1, GameObject t2, int numPlayers)
+    {
+        Debug.Log("in sendToStart");
+        Debug.Log("t1.name = " + t1.name);
+        Debug.Log("t2.name = " + t2.name);
+        if (numPlayers == 4)
+        {
+            if (t1.transform.name == "Turtle0(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("57").transform);
+            }
+            else if (t1.transform.name == "Turtle1(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("59").transform);
+            }
+            else if (t1.transform.name == "Turtle2(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("62").transform);
+            }
+            else if (t1.transform.name == "Turtle3(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("64").transform);
+            }
+
+            if (t2.transform.name == "Turtle0(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("57").transform);
+            }
+            else if (t2.transform.name == "Turtle1(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("59").transform);
+            }
+            else if (t2.transform.name == "Turtle2(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("62").transform);
+            }
+            else if (t2.transform.name == "Turtle3(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("64").transform);
+            }
+        }
+        else if (numPlayers == 3)
+        {
+            if (t1.transform.name == "Turtle0(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("58").transform);
+            }
+            else if (t1.transform.name == "Turtle1(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("61").transform);
+            }
+            else if (t1.transform.name == "Turtle2(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("64").transform);
+            }
+
+            if (t2.transform.name == "Turtle0(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("58").transform);
+            }
+            else if (t2.transform.name == "Turtle1(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("61").transform);
+            }
+            else if (t2.transform.name == "Turtle2(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("64").transform);
+            }
+
+        }
+        else if (numPlayers == 2)
+        {
+            if (t1.transform.name == "Turtle0(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("59").transform);
+            }
+            else if (t1.transform.name == "Turtle1(Clone)")
+            {
+                t1.transform.SetParent(GameObject.Find("63").transform);
+            }
+
+            if (t2.transform.name == "Turtle0(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("59").transform);
+            }
+            else if (t2.transform.name == "Turtle1(Clone)")
+            {
+                t2.transform.SetParent(GameObject.Find("63").transform);
+            }
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
-        int numPlayers = 2;
+        int numPlayers = 4;
         if (numPlayers == 4)
         {
             GameObject Square_1 = GameObject.Find("57");
@@ -30,6 +122,14 @@ public class runFunc : MonoBehaviour {
             curPlayer = (GameObject)Instantiate(Resources.Load("Turtle3"));
             curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
             curPlayer.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("2");
+            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("7");
+            gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
         }
         else if (numPlayers == 3)
         {
@@ -47,6 +147,25 @@ public class runFunc : MonoBehaviour {
             curPlayer = (GameObject)Instantiate(Resources.Load("Turtle2"));
             curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
             curPlayer.transform.SetParent(Square_1.transform);
+
+            for (int i = 1; i <= 57; i = i + 8)
+            {
+                Square_1 = GameObject.Find(i.ToString());
+                GameObject solidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
+                solidWall.transform.SetParent(Square_1.transform);
+            }
+
+            Square_1 = GameObject.Find("2");
+            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("5");
+            gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
+
+            Square_1 = GameObject.Find("8");
+            gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
         }
         else if (numPlayers == 2)
         {
@@ -59,6 +178,17 @@ public class runFunc : MonoBehaviour {
             curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
             curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 270));
             curPlayer.transform.SetParent(Square_1.transform);
+
+            for (int i = 1; i <= 57; i = i + 8)
+            {
+                Square_1 = GameObject.Find(i.ToString());
+                GameObject solidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
+                solidWall.transform.SetParent(Square_1.transform);
+            }
+
+            Square_1 = GameObject.Find("5");
+            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
+            gem.transform.SetParent(Square_1.transform);
         }
         
         //runFunct();
@@ -77,7 +207,7 @@ public class runFunc : MonoBehaviour {
     public void runFunct()
     {
         
-        GameObject curPlayer = GameObject.Find("turtle_0(Clone)");
+        GameObject curPlayer = GameObject.Find("Turtle0(Clone)");
         
         //Debug.Log("Parent = " + parent);
         //Debug.Log("parent - 1 = " + (parent - 8));
@@ -106,12 +236,20 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
+                                Debug.Log("Turtle collision happened");
+                                sendToStart(c.gameObject, curPlayer, 4);
                                 //send both turtles to spawn location
                             } else if (c.tag == "solidWall" || c.tag == "iceWall")
                             {
                                 curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
-                            } else
-                            {   //this should never happen
+                            }
+                            else if (c.tag == "Gem")
+                            {
+                                curPlayer.transform.SetParent(newPos.transform);
+                                //WIN SCREEN GOES HERE
+                            }
+                            else
+                            {   //this should never happen unless puddles are implemented
                                 //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
                             }
                         }
@@ -138,6 +276,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
+                                Debug.Log("Turtle collision happened");
+                                sendToStart(c.gameObject, curPlayer, 4);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "solidWall" || c.tag == "iceWall")
@@ -150,7 +290,7 @@ public class runFunc : MonoBehaviour {
                                 //WIN SCREEN GOES HERE
                             }
                             else
-                            {   //this should never happen
+                            {   //this should never happen unless puddles are implemented
                                 //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
                             }
                         }
@@ -176,6 +316,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
+                                Debug.Log("Turtle collision happened");
+                                sendToStart(c.gameObject, curPlayer, 4);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "solidWall" || c.tag == "iceWall")
@@ -188,7 +330,7 @@ public class runFunc : MonoBehaviour {
                                 //WIN SCREEN GOES HERE
                             }
                             else
-                            {   //this should never happen
+                            {   //this should never happen unless puddles are implemented
                                 //curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 90));
                             }
                         }
@@ -214,6 +356,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
+                                Debug.Log("Turtle collision happened");
+                                sendToStart(c.gameObject, curPlayer, 4);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "solidWall" || c.tag == "iceWall")

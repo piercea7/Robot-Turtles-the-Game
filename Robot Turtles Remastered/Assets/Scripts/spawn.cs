@@ -93,7 +93,7 @@ public class spawn : MonoBehaviour {
         //Debug.Log(i);
         while (i < 5)
         {
-            int c = Random.Range(0, 3);
+            int c = Random.Range(0, 4);
             Debug.Log(c);   
             if (c == 0)
             {
@@ -113,6 +113,8 @@ public class spawn : MonoBehaviour {
             } else if (c == 3)
             {
                 //spawn laser
+                GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
+                laser.transform.SetParent(hand.transform);// = hand.transform;
             }
             i++;
         }
@@ -120,7 +122,7 @@ public class spawn : MonoBehaviour {
 
 
 	void Start(){
-        spawnSomethingPlease();
+        //spawnSomethingPlease();
         //StartCoroutine(MyCoroutine());
         drawCards();
 		/*Vector3 newPos = new Vector3(0, 5, -1);

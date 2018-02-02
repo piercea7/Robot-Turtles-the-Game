@@ -503,8 +503,10 @@ public class runFunc : MonoBehaviour {
                 else if (curRot.z == east)
                 {
                     int laserCheck = parent + 1;
-                    while (((laserCheck + 1) % 8) != 0)
+
+                    while (((laserCheck - 1) % 8) != 0)
                     {
+                        Debug.Log((laserCheck + 1) % 8);
                         GameObject newPos = GameObject.Find((laserCheck).ToString());
 
                         if (newPos.transform.childCount > 0)

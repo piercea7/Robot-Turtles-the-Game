@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class runFunc : MonoBehaviour {
 
@@ -102,99 +103,7 @@ public class runFunc : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        int north = 270;
-        int numPlayers = 4;
-        if (numPlayers == 4)
-        {
-            GameObject Square_1 = GameObject.Find("57");
-            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("59");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("62");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle2"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("64");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle3"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("2");
-            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("7");
-            gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-        }
-        else if (numPlayers == 3)
-        {
-            GameObject Square_1 = GameObject.Find("58");
-            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("61");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("64");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle2"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            for (int i = 1; i <= 57; i = i + 8)
-            {
-                Square_1 = GameObject.Find(i.ToString());
-                GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
-                SolidWall.transform.SetParent(Square_1.transform);
-            }
-
-            Square_1 = GameObject.Find("2");
-            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("5");
-            gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("8");
-            gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-        }
-        else if (numPlayers == 2)
-        {
-            GameObject Square_1 = GameObject.Find("59");
-            GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            Square_1 = GameObject.Find("63");
-            curPlayer = (GameObject)Instantiate(Resources.Load("Turtle1"));
-            curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-            curPlayer.transform.SetParent(Square_1.transform);
-
-            for (int i = 1; i <= 57; i = i + 8)
-            {
-                Square_1 = GameObject.Find(i.ToString());
-                GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
-                SolidWall.transform.SetParent(Square_1.transform);
-            }
-
-            Square_1 = GameObject.Find("5");
-            GameObject gem = (GameObject)Instantiate(Resources.Load("Gem"));
-            gem.transform.SetParent(Square_1.transform);
-        }
         
-        //runFunct();
 
     }
     /*

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
-    public void HotSeatPlayButton(string gameBoard)
+    public void HotSeatPlayButton(string hotSeat)
     {
-        SceneManager.LoadScene(gameBoard);
+        SceneManager.LoadScene(hotSeat);
     }
     public void backButton(string MainMenu)
     {

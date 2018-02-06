@@ -3,8 +3,9 @@ using System.Collections;
 //using System.Collections.Generic;
 
 public class spawn : MonoBehaviour {
-
-	public Transform[] spawnLocations;
+    //ButtonManager bm = new ButtonManager();
+    int numPlayers = ButtonManager.numPlayers;
+    public Transform[] spawnLocations;
 	public GameObject[] whatToSpawnPrefab;
 	public GameObject[] whatToSpawnClone;
 
@@ -49,7 +50,8 @@ public class spawn : MonoBehaviour {
 
 
 	void Start(){
-        int numPlayers = 4;
+        //numPlayers = bm.numPlayers;
+        //Debug.Log("bm.numPlayers = " + bm.numPlayers);
         spawnSomethingPlease(numPlayers);
         
         drawCards();
@@ -73,73 +75,163 @@ public class spawn : MonoBehaviour {
         //cp.SetActive(true);
     }
 
-    public void switchTurn(int curPlayer)
+    public void SwitchTurn(int curPlayer)
     {
-        drawCards();
-        Debug.Log("curPlayer" + curPlayer);
-        if (curPlayer == 0)
+        if (numPlayers == 4)
         {
-            GameObject cp = GameObject.Find("player0");
-            GameObject cpP = cp.transform.parent.gameObject;
-
-            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
-            foreach (Transform t in trs)
-            {
-                if (t.name == "player1")
-                {
-                    t.gameObject.SetActive(true);
-                }
-            }
-            cp.SetActive(false);
             drawCards();
+            if (curPlayer == 0)
+            {
+                GameObject cp = GameObject.Find("player0");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player1")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
+            else if (curPlayer == 1)
+            {
+                GameObject cp = GameObject.Find("player1");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player2")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
+            else if (curPlayer == 2)
+            {
+                GameObject cp = GameObject.Find("player2");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player3")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
+            else if (curPlayer == 3)
+            {
+                GameObject cp = GameObject.Find("player3");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player0")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
         }
-        else if (curPlayer == 1)
+        else if (numPlayers == 3)
         {
-            GameObject cp = GameObject.Find("player1");
-            GameObject cpP = cp.transform.parent.gameObject;
-
-            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
-            foreach (Transform t in trs)
-            {
-                if (t.name == "player2")
-                {
-                    t.gameObject.SetActive(true);
-                }
-            }
-            cp.SetActive(false);
             drawCards();
+            if (curPlayer == 0)
+            {
+                GameObject cp = GameObject.Find("player0");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player1")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
+            else if (curPlayer == 1)
+            {
+                GameObject cp = GameObject.Find("player1");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player2")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
+            else if (curPlayer == 2)
+            {
+                GameObject cp = GameObject.Find("player2");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player0")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
         }
-        else if (curPlayer == 2)
+        else if (numPlayers == 2)
         {
-            GameObject cp = GameObject.Find("player2");
-            GameObject cpP = cp.transform.parent.gameObject;
-
-            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
-            foreach (Transform t in trs)
-            {
-                if (t.name == "player3")
-                {
-                    t.gameObject.SetActive(true);
-                }
-            }
-            cp.SetActive(false);
             drawCards();
-        }
-        else if (curPlayer == 3)
-        {
-            GameObject cp = GameObject.Find("player3");
-            GameObject cpP = cp.transform.parent.gameObject;
-
-            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
-            foreach (Transform t in trs)
+            if (curPlayer == 0)
             {
-                if (t.name == "player0")
+                GameObject cp = GameObject.Find("player0");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
                 {
-                    t.gameObject.SetActive(true);
+                    if (t.name == "player1")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
                 }
+                cp.SetActive(false);
+                drawCards();
             }
-            cp.SetActive(false);
-            drawCards();
+            else if (curPlayer == 1)
+            {
+                GameObject cp = GameObject.Find("player1");
+                GameObject cpP = cp.transform.parent.gameObject;
+
+                Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+                foreach (Transform t in trs)
+                {
+                    if (t.name == "player0")
+                    {
+                        t.gameObject.SetActive(true);
+                    }
+                }
+                cp.SetActive(false);
+                drawCards();
+            }
         }
     }
 

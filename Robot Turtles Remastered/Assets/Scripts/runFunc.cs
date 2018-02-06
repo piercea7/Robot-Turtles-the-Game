@@ -116,10 +116,37 @@ public class runFunc : MonoBehaviour {
 49  50  51  52  53  54  55  56 
 57  58  59  60  61  62  63  64
      */
-    public void runFunct()
+    public void runFunct(int cp)
     {
+        spawn s = new spawn();
+        Debug.Log("looking for player " + cp);
+        GameObject curPlayer;
+        GameObject hand;
+        if (cp == 0)
+        {
+            Debug.Log("found player 0");
+            curPlayer = GameObject.Find("Turtle0(Clone)");
+            hand = GameObject.Find("Function0");
+        }
+        else if (cp == 1)
+        {
+            Debug.Log("found player 1");
+            curPlayer = GameObject.Find("Turtle1(Clone)");
+            hand = GameObject.Find("Function1");
+        }
+        else if (cp == 2)
+        {
+            Debug.Log("found player 2");
+            curPlayer = GameObject.Find("Turtle2(Clone)");
+            hand = GameObject.Find("Function2");
+        }
+        else
+        {
+            Debug.Log("found player 3");
+            curPlayer = GameObject.Find("Turtle3(Clone)");
+            hand = GameObject.Find("Function3");
+        }
         
-        GameObject curPlayer = GameObject.Find("Turtle0(Clone)");
         int numPlayers = 4;
         //Debug.Log("Parent = " + parent);
         //Debug.Log("parent - 1 = " + (parent - 8));
@@ -128,9 +155,10 @@ public class runFunc : MonoBehaviour {
         int south = 90;
         int west = 0;
 
-        GameObject hand = GameObject.Find("Function");
+        
         foreach (Transform child in hand.transform)
         {
+            Debug.Log("looping though function");
             int parent = Convert.ToInt32(curPlayer.transform.parent.name);
             Vector3 curRot = curPlayer.transform.transform.eulerAngles;
             Debug.Log("curRot = " + curRot);
@@ -467,6 +495,7 @@ public class runFunc : MonoBehaviour {
                 }
             }
             GameObject.Destroy(child.gameObject);
+            s.switchTurn(cp);
         }
         /*
 1   2   3   4   5   6   7   8

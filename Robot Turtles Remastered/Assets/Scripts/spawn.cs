@@ -59,23 +59,87 @@ public class spawn : MonoBehaviour {
 	
     void startController(int numPlayers)
     {
-        GameObject curPlayer;
-        int curPlayersTurn = 0;
-        if (curPlayersTurn == 0)
+
+        GameObject cp = GameObject.Find("Player");
+        cp.SetActive(false);
+        cp = GameObject.Find("player0");
+        //cp.SetActive(false);
+        cp = GameObject.Find("player1");
+        cp.SetActive(false);
+        cp = GameObject.Find("player2");
+        cp.SetActive(false);
+        cp = GameObject.Find("player3");
+        cp.SetActive(false);
+        //cp.SetActive(true);
+    }
+
+    public void switchTurn(int curPlayer)
+    {
+        drawCards();
+        Debug.Log("curPlayer" + curPlayer);
+        if (curPlayer == 0)
         {
-            curPlayer = GameObject.Find("Turtle0(Clone)");
+            GameObject cp = GameObject.Find("player0");
+            GameObject cpP = cp.transform.parent.gameObject;
+
+            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in trs)
+            {
+                if (t.name == "player1")
+                {
+                    t.gameObject.SetActive(true);
+                }
+            }
+            cp.SetActive(false);
+            drawCards();
         }
-        else if (curPlayersTurn == 1)
+        else if (curPlayer == 1)
         {
-            curPlayer = GameObject.Find("Turtle1(Clone)");
+            GameObject cp = GameObject.Find("player1");
+            GameObject cpP = cp.transform.parent.gameObject;
+
+            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in trs)
+            {
+                if (t.name == "player2")
+                {
+                    t.gameObject.SetActive(true);
+                }
+            }
+            cp.SetActive(false);
+            drawCards();
         }
-        else if (curPlayersTurn == 2)
+        else if (curPlayer == 2)
         {
-            curPlayer = GameObject.Find("Turtle2(Clone)");
+            GameObject cp = GameObject.Find("player2");
+            GameObject cpP = cp.transform.parent.gameObject;
+
+            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in trs)
+            {
+                if (t.name == "player3")
+                {
+                    t.gameObject.SetActive(true);
+                }
+            }
+            cp.SetActive(false);
+            drawCards();
         }
-        else if (curPlayersTurn == 3)
+        else if (curPlayer == 3)
         {
-            curPlayer = GameObject.Find("Turtle3(Clone)");
+            GameObject cp = GameObject.Find("player3");
+            GameObject cpP = cp.transform.parent.gameObject;
+
+            Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
+            foreach (Transform t in trs)
+            {
+                if (t.name == "player0")
+                {
+                    t.gameObject.SetActive(true);
+                }
+            }
+            cp.SetActive(false);
+            drawCards();
         }
     }
 

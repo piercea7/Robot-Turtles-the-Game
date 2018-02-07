@@ -8,55 +8,95 @@ public class spawn : MonoBehaviour {
     public Transform[] spawnLocations;
 	public GameObject[] whatToSpawnPrefab;
 	public GameObject[] whatToSpawnClone;
+    int[,] cardManager = new int[,]{
+                {10, 10, 10, 10},   
+                {10, 10, 10, 10},
+                {10, 10, 10, 10},
+                {10, 10, 10, 10},
+                {10, 10, 10, 10} };
+    /*
+    player0 {forward, left, right, laser}
+    player1 {forward, left, right, laser}
+    player2 {forward, left, right, laser}
+    player3 {forward, left, right, laser}     
+     */
 
     public void drawCards()
     {
         GameObject hand = GameObject.Find("Hand");
-        int i = 0;
-        foreach (Transform child in hand.transform)
+        string curPlayer = hand.transform.parent.name;
+        int curP = -1;
+        if (curPlayer == "player0")
         {
-            //GameObject.Destroy(child.gameObject);
-            i++;
+            curP = 0;
         }
-        //Debug.Log(i);
+        else if (curPlayer == "player1")
+        {
+            curP = 1;
+        }
+        else if (curPlayer == "player2")
+        {
+            curP = 2;
+        }
+        else if (curPlayer == "player3")
+        {
+            curP = 3;
+        }
+        Debug.Log("drawing cards for player " + curP);
+        int i = hand.transform.childCount;
         while (i < 5)
         {
             int c = Random.Range(0, 4);
-            Debug.Log(c);   
             if (c == 0)
             {
                 //spawn forward
-                GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
-                forward.transform.SetParent(hand.transform);// = hand.transform;
+                if (cardManager[curP, 0] > 0)
+                {
+                    GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
+                    forward.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 0] = cardManager[curP, 0] - 1;
+                    i++;
+                }
+
             } else if (c == 1)
             {
                 //spawn left
-                GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
-                left.transform.SetParent(hand.transform);// = hand.transform;
+                if (cardManager[curP, 1] > 0)
+                {
+                    GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
+                    left.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 1] = cardManager[curP, 1] - 1;
+                    i++;
+                }
             } else if (c == 2)
             {
                 //spawn right
-                GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
-                right.transform.SetParent(hand.transform);// = hand.transform;
+                if (cardManager[curP, 2] > 0)
+                {
+                    GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
+                    right.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 2] = cardManager[curP, 2] - 1;
+                    i++;
+                }
             } else if (c == 3)
             {
                 //spawn laser
-                GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
-                laser.transform.SetParent(hand.transform);// = hand.transform;
+                if (cardManager[curP, 3] > 0)
+                {
+                    GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
+                    laser.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 3] = cardManager[curP, 3] - 1;
+                    i++;
+                }
             }
-            i++;
+            //i++;
         }
     }
 
 
 	void Start(){
-        //numPlayers = bm.numPlayers;
-        //Debug.Log("bm.numPlayers = " + bm.numPlayers);
         spawnSomethingPlease(numPlayers);
-        
         drawCards();
-
-
 	}
 	
     void startController(int numPlayers)
@@ -84,7 +124,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -184,7 +223,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player2");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -204,7 +242,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -220,7 +257,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {

@@ -27,6 +27,10 @@ public class ButtonManager : MonoBehaviour {
     {
         SceneManager.LoadScene(JoinGame);
     }
+    public void GameOptionsButton(string GameOptions)
+    {
+        SceneManager.LoadScene(GameOptions);
+    }
     public void QuitButton()
     {
         Application.Quit();

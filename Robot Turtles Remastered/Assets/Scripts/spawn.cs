@@ -55,6 +55,7 @@ public class spawn : MonoBehaviour {
                     GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
                     forward.transform.SetParent(hand.transform);// = hand.transform;
                     cardManager[curP, 0] = cardManager[curP, 0] - 1;
+                    Debug.Log("forward cards left " + cardManager[curP, 0]);
                     i++;
                 }
 
@@ -66,6 +67,7 @@ public class spawn : MonoBehaviour {
                     GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
                     left.transform.SetParent(hand.transform);// = hand.transform;
                     cardManager[curP, 1] = cardManager[curP, 1] - 1;
+                    Debug.Log("left cards left " + cardManager[curP, 1]);
                     i++;
                 }
             } else if (c == 2)
@@ -76,6 +78,7 @@ public class spawn : MonoBehaviour {
                     GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
                     right.transform.SetParent(hand.transform);// = hand.transform;
                     cardManager[curP, 2] = cardManager[curP, 2] - 1;
+                    Debug.Log("right cards left " + cardManager[curP, 2]);
                     i++;
                 }
             } else if (c == 3)
@@ -86,6 +89,7 @@ public class spawn : MonoBehaviour {
                     GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
                     laser.transform.SetParent(hand.transform);// = hand.transform;
                     cardManager[curP, 3] = cardManager[curP, 3] - 1;
+                    Debug.Log("laser cards left " + cardManager[curP, 3]);
                     i++;
                 }
             }
@@ -102,9 +106,9 @@ public class spawn : MonoBehaviour {
     void startController(int numPlayers)
     {
 
-        GameObject cp = GameObject.Find("Player");
-        cp.SetActive(false);
-        cp = GameObject.Find("player0");
+        //GameObject cp = GameObject.Find("Player");
+        //cp.SetActive(false);
+        GameObject cp = GameObject.Find("player0");
         //cp.SetActive(false);
         cp = GameObject.Find("player1");
         cp.SetActive(false);
@@ -271,7 +275,7 @@ public class spawn : MonoBehaviour {
         }
     }
 
-    void spawnSomethingPlease(int numPlayers) {// this needs to be redone to work with new system
+    void spawnSomethingPlease(int numPlayers) {
         int north = 270;
         //int numPlayers = 4;
         if (numPlayers == 4)

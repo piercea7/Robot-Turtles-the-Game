@@ -4,9 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
+    public static int numPlayers;
     public void HotSeatPlayButton(string hotSeat)
     {
         SceneManager.LoadScene(hotSeat);
+    }
+    public void hotSeatNumPlayers(int numP)
+    {
+        numPlayers = numP;
+        SceneManager.LoadScene("gameBoard");
+        numPlayers = numP;
     }
     public void backButton(string MainMenu)
     {

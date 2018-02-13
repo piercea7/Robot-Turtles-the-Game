@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class runFunc : MonoBehaviour {
 
-    void sendToStart(GameObject t1, GameObject t2, int numPlayers)
+    void sendToStart(GameObject t1, GameObject t2, int numPlayers, int north)
     {
         Debug.Log("in sendToStart");
         Debug.Log("t1.name = " + t1.name);
@@ -96,6 +96,8 @@ public class runFunc : MonoBehaviour {
                 t2.transform.SetParent(GameObject.Find("63").transform);
             }
         }
+        t1.transform.eulerAngles = (new Vector3(0, 0, north));
+        t2.transform.eulerAngles = (new Vector3(0, 0, north));
     }
 
 
@@ -180,7 +182,7 @@ public class runFunc : MonoBehaviour {
                             if (c.tag == "Turtle")
                             {
                                 Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers);
+                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "SolidWall" || c.tag == "IceWall")
@@ -194,7 +196,15 @@ public class runFunc : MonoBehaviour {
                             }
                             else if (c.tag == "Puddle")
                             {
-                                curPlayer.transform.SetParent(newPos.transform);
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                                }
+                                else
+                                {
+                                    curPlayer.transform.SetParent(newPos.transform);
+                                }
                             }
                             else
                             {
@@ -223,7 +233,7 @@ public class runFunc : MonoBehaviour {
                             if (c.tag == "Turtle")
                             {
                                 Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers);
+                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "SolidWall" || c.tag == "IceWall")
@@ -237,7 +247,15 @@ public class runFunc : MonoBehaviour {
                             }
                             else if (c.tag == "Puddle")
                             {
-                                curPlayer.transform.SetParent(newPos.transform);
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                                }
+                                else
+                                {
+                                    curPlayer.transform.SetParent(newPos.transform);
+                                }
                             }
                             else
                             {
@@ -253,7 +271,7 @@ public class runFunc : MonoBehaviour {
                 else if (curRot.z == east)
                 {
                     GameObject newPos = GameObject.Find((parent + 1).ToString());
-                    if ((parent % 8) != 0 && newPos.transform.childCount == 0)
+                    if ((parent % 8) != 0)
                     {
                         if (newPos.transform.childCount == 0)
                         {
@@ -266,7 +284,7 @@ public class runFunc : MonoBehaviour {
                             if (c.tag == "Turtle")
                             {
                                 Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers);
+                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "SolidWall" || c.tag == "IceWall")
@@ -280,7 +298,15 @@ public class runFunc : MonoBehaviour {
                             }
                             else if (c.tag == "Puddle")
                             {
-                                curPlayer.transform.SetParent(newPos.transform);
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                                }
+                                else
+                                {
+                                    curPlayer.transform.SetParent(newPos.transform);
+                                }
                             }
                             else
                             {
@@ -296,7 +322,7 @@ public class runFunc : MonoBehaviour {
                 else if (curRot.z == west)
                 {
                     GameObject newPos = GameObject.Find((parent - 1).ToString());
-                    if ((((parent - 1) % 8) != 0 || parent == 1) && newPos.transform.childCount == 0)
+                    if ((((parent - 1) % 8) != 0 || parent == 1))
                     {
                         if (newPos.transform.childCount == 0)
                         {
@@ -309,7 +335,7 @@ public class runFunc : MonoBehaviour {
                             if (c.tag == "Turtle")
                             {
                                 Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers);
+                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
                                 //send both turtles to spawn location
                             }
                             else if (c.tag == "SolidWall" || c.tag == "IceWall")
@@ -323,7 +349,15 @@ public class runFunc : MonoBehaviour {
                             }
                             else if (c.tag == "Puddle")
                             {
-                                curPlayer.transform.SetParent(newPos.transform);
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                                }
+                                else
+                                {
+                                    curPlayer.transform.SetParent(newPos.transform);
+                                }
                             }
                             else
                             {
@@ -388,7 +422,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers);
+                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                                break;
                             }
                             else if (c.tag == "IceWall")
                             {
@@ -397,8 +432,16 @@ public class runFunc : MonoBehaviour {
                                 GameObject Square = GameObject.Find(p.ToString());
                                 GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
                                 pud.transform.SetParent(Square.transform);
+                                break;
+                            } else if (c.tag == "Puddle")
+                            {
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                                    break;
+                                }
                             }
-                            break;
                         }
                         laserCheck = laserCheck - 1;
                     }
@@ -414,7 +457,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers);
+                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                                break;
                             }
                             else if (c.tag == "IceWall")
                             {
@@ -423,8 +467,17 @@ public class runFunc : MonoBehaviour {
                                 GameObject Square = GameObject.Find(p.ToString());
                                 GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
                                  pud.transform.SetParent(Square.transform);
+                                break;
                             }
-                            break;
+                            else if (c.tag == "Puddle")
+                            {
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                                    break;
+                                }
+                            }
                         }
                         laserCheck = laserCheck + 8;
                     }
@@ -441,7 +494,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers);
+                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                                break;
                             }
                             else if (c.tag == "IceWall")
                             {
@@ -450,8 +504,17 @@ public class runFunc : MonoBehaviour {
                                 GameObject Square = GameObject.Find(p.ToString());
                                 GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
                                 pud.transform.SetParent(Square.transform);
+                                break;
                             }
-                            break;
+                            else if (c.tag == "Puddle")
+                            {
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                                    break;
+                                }
+                            }
                         }
                         laserCheck = laserCheck + 1;
                     }
@@ -467,7 +530,8 @@ public class runFunc : MonoBehaviour {
                             Transform c = newPos.transform.GetChild(0);
                             if (c.tag == "Turtle")
                             {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers);
+                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                                break;
                             }
                             else if (c.tag == "IceWall")
                             {
@@ -476,8 +540,17 @@ public class runFunc : MonoBehaviour {
                                 GameObject Square = GameObject.Find(p.ToString());
                                 GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
                                 pud.transform.SetParent(Square.transform);
+                                break;
                             }
-                            break;
+                            else if (c.tag == "Puddle")
+                            {
+                                if (newPos.transform.childCount == 2)
+                                {
+                                    Transform t = newPos.transform.GetChild(1);
+                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                                    break;
+                                }
+                            }
                         }
                         laserCheck = laserCheck - 8;
                     }

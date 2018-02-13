@@ -57,6 +57,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
         if (d != null)
         {
+            
             //logic for drop conditions go into here
             Debug.Log("Zone type = " + zoneType);
             if (zoneType == DropZoneType.FunctionZone)
@@ -64,6 +65,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                 //Sprite blankCard = Resources.Load<Sprite>("blank_card");
             }
             d.parentToReturnTo = this.transform;
+            //d.enabled = false;
         }
     }
 

@@ -9,16 +9,16 @@ public class spawn : MonoBehaviour {
 	public GameObject[] whatToSpawnPrefab;
 	public GameObject[] whatToSpawnClone;
     int[,] cardManager = new int[,]{
-                {10, 10, 10, 10},   
-                {10, 10, 10, 10},
-                {10, 10, 10, 10},
-                {10, 10, 10, 10},
-                {10, 10, 10, 10} };
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5}, };
     /*
-    player0 {forward, left, right, laser}
-    player1 {forward, left, right, laser}
-    player2 {forward, left, right, laser}
-    player3 {forward, left, right, laser}     
+    player0 {forward, left, right, laser, function}
+    player1 {forward, left, right, laser, function}
+    player2 {forward, left, right, laser, function}
+    player3 {forward, left, right, laser, function}     
      */
 
     public void drawCards()
@@ -46,6 +46,14 @@ public class spawn : MonoBehaviour {
         int i = hand.transform.childCount;
         while (i < 5)
         {
+            if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0)// && cardManager[curP, 4] == 0)
+            {
+                cardManager[curP, 0] = 18;
+                cardManager[curP, 1] = 8;
+                cardManager[curP, 2] = 8;
+                cardManager[curP, 3] = 5;
+                cardManager[curP, 4] = 5;
+            }
             int c = Random.Range(0, 4);
             if (c == 0)
             {
@@ -59,7 +67,8 @@ public class spawn : MonoBehaviour {
                     i++;
                 }
 
-            } else if (c == 1)
+            }
+            else if (c == 1)
             {
                 //spawn left
                 if (cardManager[curP, 1] > 0)
@@ -70,7 +79,8 @@ public class spawn : MonoBehaviour {
                     Debug.Log("left cards left " + cardManager[curP, 1]);
                     i++;
                 }
-            } else if (c == 2)
+            }
+            else if (c == 2)
             {
                 //spawn right
                 if (cardManager[curP, 2] > 0)
@@ -81,7 +91,8 @@ public class spawn : MonoBehaviour {
                     Debug.Log("right cards left " + cardManager[curP, 2]);
                     i++;
                 }
-            } else if (c == 3)
+            }
+            else if (c == 3)
             {
                 //spawn laser
                 if (cardManager[curP, 3] > 0)
@@ -93,7 +104,19 @@ public class spawn : MonoBehaviour {
                     i++;
                 }
             }
-            //i++;
+            else if (c == 4)
+            {
+                //spawn function card
+                if (cardManager[curP, 4] > 0)
+                {
+                    GameObject FCard = (GameObject)Instantiate(Resources.Load("FunctionCard"));
+                    FCard.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 4] = cardManager[curP, 4] - 1;
+                    Debug.Log("function cards left " + cardManager[curP, 3]);
+                    i++;
+                }
+                //i++;
+            }
         }
     }
 
@@ -330,6 +353,7 @@ public class spawn : MonoBehaviour {
                 Square_1 = GameObject.Find(i.ToString());
                 GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
                 SolidWall.transform.SetParent(Square_1.transform);
+                SolidWall.GetComponent<Draggable>().enabled = false;
             }
 
             Square_1 = GameObject.Find("2");
@@ -361,6 +385,7 @@ public class spawn : MonoBehaviour {
                 Square_1 = GameObject.Find(i.ToString());
                 GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
                 SolidWall.transform.SetParent(Square_1.transform);
+                SolidWall.GetComponent<Draggable>().enabled = false;
             }
 
             Square_1 = GameObject.Find("5");

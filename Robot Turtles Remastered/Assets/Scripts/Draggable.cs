@@ -55,13 +55,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     }
 
     public void OnEndDrag(PointerEventData eventData) {
+        //DropZone d = new DropZone();
         Debug.Log("OnEndDrag");
         this.transform.SetParent( parentToReturnTo );
 		this.transform.SetSiblingIndex( placeholder.transform.GetSiblingIndex() );
 		GetComponent<CanvasGroup>().blocksRaycasts = true;
-        //GetComponent<Draggable>().enabled = false;
-        DropZone d = eventData.pointerDrag.GetComponent<DropZone>();
-        Debug.Log(d);
+        this.GetComponent<Draggable>().enabled = false;
         Destroy(placeholder);
     }
 	

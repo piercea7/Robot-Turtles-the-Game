@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 //using System.Collections.Generic;
 
 public class spawn : MonoBehaviour {
@@ -144,6 +146,15 @@ public class spawn : MonoBehaviour {
 
     public void SwitchTurn(int curPlayer)
     {
+        foreach (Transform child in GameObject.Find("Hand").transform)
+        {
+            child.GetComponent<Draggable>().enabled = true;
+        }
+        foreach (Transform child in GameObject.Find("TileZone").transform)
+        {
+            child.GetComponent<Draggable>().enabled = true;
+        }
+        GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = true;
         if (numPlayers == 4)
         {
             drawCards();
@@ -218,6 +229,7 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
+
 
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)

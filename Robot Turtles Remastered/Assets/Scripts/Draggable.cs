@@ -8,10 +8,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	public Transform parentToReturnTo = null;
 	public Transform placeholderParent = null;
 
+    int handChildCount;
+    int tileChildCount;
+
 	GameObject placeholder = null;
     GameObject originParent = null;
 
 	public void OnBeginDrag(PointerEventData eventData) {
+        handChildCount = GameObject.Find("Hand").transform.childCount;
+        tileChildCount = GameObject.Find("TileZone").transform.childCount;
         Debug.Log("OnBeginDrag");
 		placeholder = new GameObject();
         originParent = new GameObject();
@@ -67,20 +72,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             if (this.transform.tag != "SolidWall" && this.transform.tag != "IceWall")
             {
                 this.transform.SetParent(originParent.transform);
-                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                Destroy(placeholder);
-                //Destroy(originParent);
             }
             else
             {
                 this.transform.SetParent(parentToReturnTo);
-                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                this.GetComponent<Draggable>().enabled = false;
-                Destroy(placeholder);
-                //Destroy(originParent);
+                tileChildCount++;
             }
+            this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+            GetComponent<CanvasGroup>().blocksRaycasts = true;
+            Destroy(placeholder);
         } else if (zone == DropZone.DropZoneType.FunctionZone)
         {
             if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser")
@@ -151,5 +151,33 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         }
         DropZone.zone = DropZone.DropZoneType.empty;
+        Debug.Log("handChildCount = " + handChildCount);
+        Debug.Log("GameObject.Find('Hand').transform.childCount = " + GameObject.Find("Hand").transform.childCount);
+        Debug.Log("tileChildCount = " + tileChildCount);
+        Debug.Log("GameObject.Find('TileZone').transform.childCount = " + GameObject.Find("TileZone").transform.childCount);
+        if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
+        {
+            Debug.Log("Disabling Hand");
+            foreach (Transform child in GameObject.Find("Hand").transform)
+            {
+                child.GetComponent<Draggable>().enabled = false;
+            }
+            Debug.Log("Disabling TileZone");
+            foreach (Transform child in GameObject.Find("TileZone").transform)
+            {
+                //child.GetComponent<Draggable>().enabled = false;
+            }
+            Debug.Log("Disabling Run Function");
+            GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
+        }
+        if (handChildCount > GameObject.Find("Hand").transform.childCount)
+        {
+            Debug.Log("Disabling TileZone");
+            foreach (Transform child in GameObject.Find("TileZone").transform)
+            {
+                child.GetComponent<Draggable>().enabled = false;
+            }
+            GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
+        }
     }	
 }

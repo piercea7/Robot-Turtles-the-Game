@@ -23,6 +23,10 @@ public class ButtonManager : MonoBehaviour {
     {
         SceneManager.LoadScene(CreateGame);
     }
+    public void HelpButton(string HelpScreen)
+    {
+        SceneManager.LoadScene(HelpScreen);
+    }
     public void JoinLobbyButton(string JoinGame)
     {
         SceneManager.LoadScene(JoinGame);

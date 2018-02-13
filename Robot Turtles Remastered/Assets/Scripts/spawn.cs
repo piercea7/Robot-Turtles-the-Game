@@ -8,63 +8,130 @@ public class spawn : MonoBehaviour {
     public Transform[] spawnLocations;
 	public GameObject[] whatToSpawnPrefab;
 	public GameObject[] whatToSpawnClone;
+    int[,] cardManager = new int[,]{
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5},
+                {18, 8, 8, 5, 5}, };
+    /*
+    player0 {forward, left, right, laser, function}
+    player1 {forward, left, right, laser, function}
+    player2 {forward, left, right, laser, function}
+    player3 {forward, left, right, laser, function}     
+     */
 
     public void drawCards()
     {
         GameObject hand = GameObject.Find("Hand");
-        int i = 0;
-        foreach (Transform child in hand.transform)
+        string curPlayer = hand.transform.parent.name;
+        int curP = -1;
+        if (curPlayer == "player0")
         {
-            //GameObject.Destroy(child.gameObject);
-            i++;
+            curP = 0;
         }
-        //Debug.Log(i);
+        else if (curPlayer == "player1")
+        {
+            curP = 1;
+        }
+        else if (curPlayer == "player2")
+        {
+            curP = 2;
+        }
+        else if (curPlayer == "player3")
+        {
+            curP = 3;
+        }
+        Debug.Log("drawing cards for player " + curP);
+        int i = hand.transform.childCount;
         while (i < 5)
         {
+            if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0)// && cardManager[curP, 4] == 0)
+            {
+                cardManager[curP, 0] = 18;
+                cardManager[curP, 1] = 8;
+                cardManager[curP, 2] = 8;
+                cardManager[curP, 3] = 5;
+                cardManager[curP, 4] = 5;
+            }
             int c = Random.Range(0, 4);
-            Debug.Log(c);   
             if (c == 0)
             {
                 //spawn forward
-                GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
-                forward.transform.SetParent(hand.transform);// = hand.transform;
-            } else if (c == 1)
+                if (cardManager[curP, 0] > 0)
+                {
+                    GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
+                    forward.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 0] = cardManager[curP, 0] - 1;
+                    Debug.Log("forward cards left " + cardManager[curP, 0]);
+                    i++;
+                }
+
+            }
+            else if (c == 1)
             {
                 //spawn left
-                GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
-                left.transform.SetParent(hand.transform);// = hand.transform;
-            } else if (c == 2)
+                if (cardManager[curP, 1] > 0)
+                {
+                    GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
+                    left.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 1] = cardManager[curP, 1] - 1;
+                    Debug.Log("left cards left " + cardManager[curP, 1]);
+                    i++;
+                }
+            }
+            else if (c == 2)
             {
                 //spawn right
-                GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
-                right.transform.SetParent(hand.transform);// = hand.transform;
-            } else if (c == 3)
+                if (cardManager[curP, 2] > 0)
+                {
+                    GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
+                    right.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 2] = cardManager[curP, 2] - 1;
+                    Debug.Log("right cards left " + cardManager[curP, 2]);
+                    i++;
+                }
+            }
+            else if (c == 3)
             {
                 //spawn laser
-                GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
-                laser.transform.SetParent(hand.transform);// = hand.transform;
+                if (cardManager[curP, 3] > 0)
+                {
+                    GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
+                    laser.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 3] = cardManager[curP, 3] - 1;
+                    Debug.Log("laser cards left " + cardManager[curP, 3]);
+                    i++;
+                }
             }
-            i++;
+            else if (c == 4)
+            {
+                //spawn function card
+                if (cardManager[curP, 4] > 0)
+                {
+                    GameObject FCard = (GameObject)Instantiate(Resources.Load("FunctionCard"));
+                    FCard.transform.SetParent(hand.transform);// = hand.transform;
+                    cardManager[curP, 4] = cardManager[curP, 4] - 1;
+                    Debug.Log("function cards left " + cardManager[curP, 3]);
+                    i++;
+                }
+                //i++;
+            }
         }
     }
 
 
 	void Start(){
-        //numPlayers = bm.numPlayers;
-        //Debug.Log("bm.numPlayers = " + bm.numPlayers);
         spawnSomethingPlease(numPlayers);
-        
         drawCards();
-
-
 	}
 	
     void startController(int numPlayers)
     {
 
-        GameObject cp = GameObject.Find("Player");
-        cp.SetActive(false);
-        cp = GameObject.Find("player0");
+        //GameObject cp = GameObject.Find("Player");
+        //cp.SetActive(false);
+        GameObject cp = GameObject.Find("player0");
         //cp.SetActive(false);
         cp = GameObject.Find("player1");
         cp.SetActive(false);
@@ -84,7 +151,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -184,7 +250,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player2");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -204,7 +269,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -220,7 +284,6 @@ public class spawn : MonoBehaviour {
             {
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
-
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs)
                 {
@@ -235,7 +298,7 @@ public class spawn : MonoBehaviour {
         }
     }
 
-    void spawnSomethingPlease(int numPlayers) {// this needs to be redone to work with new system
+    void spawnSomethingPlease(int numPlayers) {
         int north = 270;
         //int numPlayers = 4;
         if (numPlayers == 4)
@@ -290,6 +353,7 @@ public class spawn : MonoBehaviour {
                 Square_1 = GameObject.Find(i.ToString());
                 GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
                 SolidWall.transform.SetParent(Square_1.transform);
+                SolidWall.GetComponent<Draggable>().enabled = false;
             }
 
             Square_1 = GameObject.Find("2");
@@ -321,6 +385,7 @@ public class spawn : MonoBehaviour {
                 Square_1 = GameObject.Find(i.ToString());
                 GameObject SolidWall = (GameObject)Instantiate(Resources.Load("SolidWall"));
                 SolidWall.transform.SetParent(Square_1.transform);
+                SolidWall.GetComponent<Draggable>().enabled = false;
             }
 
             Square_1 = GameObject.Find("5");

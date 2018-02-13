@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public static DropZoneType zone;
     public enum DropZoneType
     {
         FieldZone,
@@ -12,10 +13,10 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         TileZone,
         HandZone,
         DeckZone,
-        BoardZone
-        
+        BoardZone,
+        empty
     }
-    
+
     public DropZoneType zoneType = DropZoneType.FieldZone;
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -57,7 +58,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
         if (d != null)
         {
-            
+            zone = zoneType;
             //logic for drop conditions go into here
             Debug.Log("Zone type = " + zoneType);
             if (zoneType == DropZoneType.FunctionZone)

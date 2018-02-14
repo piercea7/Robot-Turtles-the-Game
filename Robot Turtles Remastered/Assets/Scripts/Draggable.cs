@@ -115,9 +115,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             GetComponent<CanvasGroup>().blocksRaycasts = true;
             Destroy(placeholder);
             //Destroy(originParent);
-        } else if (zone == DropZone.DropZoneType.DiscardZone)
-        {
-
         } else if (zone == DropZone.DropZoneType.FieldZone)
         {
             this.transform.SetParent(parentToReturnTo);
@@ -140,6 +137,28 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 this.transform.SetParent(parentToReturnTo);
                 this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                 GetComponent<CanvasGroup>().blocksRaycasts = true;
+                Destroy(placeholder);
+                //Destroy(originParent);
+            }
+        } else if (zone == DropZone.DropZoneType.DiscardZone)
+        {
+            Debug.Log(this.tag);
+            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser")
+            {
+                this.transform.SetParent(originParent.transform);
+                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                GetComponent<CanvasGroup>().blocksRaycasts = true;
+                Destroy(placeholder);
+            }
+            else
+            {
+                this.transform.SetParent(parentToReturnTo);
+                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                GetComponent<CanvasGroup>().blocksRaycasts = true;
+                this.GetComponent<Draggable>().enabled = false;
+                Sprite blankCard = Resources.Load<Sprite>("blank_card");
+                this.GetComponent<Image>().sprite = blankCard;
+                Destroy(this.gameObject);
                 Destroy(placeholder);
                 //Destroy(originParent);
             }

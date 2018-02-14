@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class runFunc : MonoBehaviour {
 
@@ -128,24 +130,30 @@ public class runFunc : MonoBehaviour {
             Debug.Log("found player 0");
             curPlayer = GameObject.Find("Turtle0(Clone)");
             hand = GameObject.Find("Function");
+            Debug.Log("setting function size to 0");
+            GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
+            Debug.Log("function should be 0");
         }
         else if (cp == 1)
         {
             Debug.Log("found player 1");
             curPlayer = GameObject.Find("Turtle1(Clone)");
             hand = GameObject.Find("Function");
+            GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
         }
         else if (cp == 2)
         {
             Debug.Log("found player 2");
             curPlayer = GameObject.Find("Turtle2(Clone)");
             hand = GameObject.Find("Function");
+            GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
         }
         else
         {
             Debug.Log("found player 3");
             curPlayer = GameObject.Find("Turtle3(Clone)");
             hand = GameObject.Find("Function");
+            GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
         }        
         int numPlayers = ButtonManager.numPlayers;
         int north = 270;
@@ -559,6 +567,7 @@ public class runFunc : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
         spawn s = new spawn();
+        Debug.Log("end runFunc");
         s.SwitchTurn(cp);
         /*
             1   2   3   4   5   6   7   8

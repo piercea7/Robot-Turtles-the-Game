@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 //using System.Collections.Generic;
 
 public class spawn : MonoBehaviour {
@@ -30,18 +33,26 @@ public class spawn : MonoBehaviour {
         int curP = -1;
         if (curPlayer == "player0")
         {
+            GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+            GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             curP = 0;
         }
         else if (curPlayer == "player1")
         {
+            GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+            GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             curP = 1;
         }
         else if (curPlayer == "player2")
         {
+            GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+            GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             curP = 2;
         }
         else if (curPlayer == "player3")
         {
+            GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+            GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             curP = 3;
         }
         Debug.Log("drawing cards for player " + curP);
@@ -56,7 +67,7 @@ public class spawn : MonoBehaviour {
                 cardManager[curP, 3] = 5;
                 cardManager[curP, 4] = 5;
             }
-            int c = Random.Range(0, 4);
+            int c = UnityEngine.Random.Range(0, 4);
             if (c == 0)
             {
                 //spawn forward
@@ -161,6 +172,8 @@ public class spawn : MonoBehaviour {
             drawCards();
             if (curPlayer == 0)
             {
+                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -176,6 +189,8 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
+                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
 
@@ -192,6 +207,8 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 2)
             {
+                GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player2");
                 GameObject cpP = cp.transform.parent.gameObject;
 
@@ -208,6 +225,8 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 3)
             {
+                GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player3");
                 GameObject cpP = cp.transform.parent.gameObject;
 
@@ -228,6 +247,8 @@ public class spawn : MonoBehaviour {
             drawCards();
             if (curPlayer == 0)
             {
+                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
 
@@ -245,6 +266,8 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
+                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
 
@@ -280,6 +303,10 @@ public class spawn : MonoBehaviour {
             drawCards();
             if (curPlayer == 0)
             {
+                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                Debug.Log("Function size = ");
+                Debug.Log(GameObject.Find("Function").transform.childCount);
+                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -295,6 +322,8 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
+                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -346,6 +375,8 @@ public class spawn : MonoBehaviour {
         }
         else if (numPlayers == 3)
         {
+            GameObject.Find("Player3Stats").SetActive(false);
+
             GameObject Square_1 = GameObject.Find("58");
             GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
             curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
@@ -383,6 +414,9 @@ public class spawn : MonoBehaviour {
         }
         else if (numPlayers == 2)
         {
+            GameObject.Find("Player2Stats").SetActive(false);
+            GameObject.Find("Player3Stats").SetActive(false);
+
             GameObject Square_1 = GameObject.Find("59");
             GameObject curPlayer = (GameObject)Instantiate(Resources.Load("Turtle0"));
             curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));

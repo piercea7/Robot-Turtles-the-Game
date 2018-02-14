@@ -158,14 +158,15 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
         {
             Debug.Log("Disabling Hand");
-            foreach (Transform child in GameObject.Find("Hand").transform)
+            /*foreach (Transform child in GameObject.Find("Hand").transform)
             {
                 child.GetComponent<Draggable>().enabled = false;
-            }
+            }*/
+            GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = false;
             Debug.Log("Disabling TileZone");
             foreach (Transform child in GameObject.Find("TileZone").transform)
             {
-                //child.GetComponent<Draggable>().enabled = false;
+                child.GetComponent<Draggable>().enabled = false;
             }
             Debug.Log("Disabling Run Function");
             GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;

@@ -154,6 +154,7 @@ public class spawn : MonoBehaviour {
         {
             child.GetComponent<Draggable>().enabled = true;
         }
+        GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = true;
         GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = true;
         if (numPlayers == 4)
         {

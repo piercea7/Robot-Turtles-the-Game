@@ -127,25 +127,25 @@ public class runFunc : MonoBehaviour {
         {
             Debug.Log("found player 0");
             curPlayer = GameObject.Find("Turtle0(Clone)");
-            hand = GameObject.Find("Function0");
+            hand = GameObject.Find("Function");
         }
         else if (cp == 1)
         {
             Debug.Log("found player 1");
             curPlayer = GameObject.Find("Turtle1(Clone)");
-            hand = GameObject.Find("Function1");
+            hand = GameObject.Find("Function");
         }
         else if (cp == 2)
         {
             Debug.Log("found player 2");
             curPlayer = GameObject.Find("Turtle2(Clone)");
-            hand = GameObject.Find("Function2");
+            hand = GameObject.Find("Function");
         }
         else
         {
             Debug.Log("found player 3");
             curPlayer = GameObject.Find("Turtle3(Clone)");
-            hand = GameObject.Find("Function3");
+            hand = GameObject.Find("Function");
         }        
         int numPlayers = ButtonManager.numPlayers;
         int north = 270;

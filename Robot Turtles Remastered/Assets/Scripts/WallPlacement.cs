@@ -11,33 +11,29 @@ public class WallPlacement : MonoBehaviour {
     static bool pathPossible = false;
     static int row = 0;
     static int col = 0;
-    static void FindPath(int ro, int co)
+    static bool FindPath(int ro, int co)
     {
         if ((co < 0) || (ro < 0) || (co > 7) || (ro > 7))
         {
-            return;
+            return false;
         }
 
         if (lab[ro, co] == 'e')
         {
             Debug.Log("Found the exit");
             pathPossible = true;
-            return;
+            return true;
         }
 
         if (lab[ro, co] != '-')
         {
-            return;
+            return false;
         }
 
         lab[ro, co] = 's';
-
-        FindPath(ro, co - 1);
-        FindPath(ro - 1, co);
-        FindPath(ro, co + 1);
-        FindPath(ro + 1, co);
-
-        lab[ro, co] = '-';
+        if (FindPath(ro, co - 1) || FindPath(ro - 1, co) || FindPath(ro, co + 1) || FindPath(ro + 1, co)) { lab[ro, co] = '-'; return true; }
+        else { lab[ro, co] = '-'; return false; }
+        
     }
 
     static void ConvertBoard(int newPiece)
@@ -140,7 +136,7 @@ public class WallPlacement : MonoBehaviour {
         {
             Debug.Log(lab[i, 0] + " " + lab[i, 1] + " " + lab[i, 2] + " " + lab[i, 3] + " " + lab[i, 4] + " " + lab[i, 5] + " " + lab[i, 6] + " " + lab[i, 7] + " ");
         }
-        //return true;
+        Debug.Log(ButtonManager.numPlayers);
         if (ButtonManager.numPlayers == 4)
         {
             bool p0 = false;
@@ -148,37 +144,46 @@ public class WallPlacement : MonoBehaviour {
             bool p2 = false;
             bool p3 = false;
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
-            {
-                p0 = true;
-                pathPossible = false;
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
+            {  
+                if (FindPath(row, col))
+                {
+                    p0 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p1 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p1 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p2 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p2 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle3 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle3(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p3 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p3 = true;
+                    pathPossible = false;
+                }
             }
+            Debug.Log("p0 = " + p0 + " p1 = " + p1 + " p2 = " + p2 + " p3 = " + p3);
             if (p0 && p1 && p2 && p3) { return true; }
             else { return false; }
         }
@@ -188,28 +193,34 @@ public class WallPlacement : MonoBehaviour {
             bool p1 = false;
             bool p2 = false;
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p0 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p0 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p1 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p1 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p2 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p2 = true;
+                    pathPossible = false;
+                }
             }
             if (p0 && p1 && p2) { return true; }
             else { return false; }
@@ -219,20 +230,24 @@ public class WallPlacement : MonoBehaviour {
             bool p0 = false;
             bool p1 = false;
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p0 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p0 = true;
+                    pathPossible = false;
+                }
             }
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1 (Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1)) { FindPath(row, col); }
-            if (pathPossible)
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
+            if ((row != -1) && (col != -1))
             {
-                p1 = true;
-                pathPossible = false;
+                if (FindPath(row, col))
+                {
+                    p1 = true;
+                    pathPossible = false;
+                }
             }
             if (p0 && p1) { return true; }
             else { return false; }

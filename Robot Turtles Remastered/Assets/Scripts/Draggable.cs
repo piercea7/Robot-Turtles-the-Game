@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
+using System;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 	
@@ -75,8 +78,37 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
             else
             {
-                this.transform.SetParent(parentToReturnTo);
-                tileChildCount++;
+                if (parentToReturnTo.transform.childCount == 0)
+                {
+                    if (this.transform.tag == "SolidWall")
+                    {
+                        Debug.Log("Solid wall placed");
+                        this.transform.SetParent(parentToReturnTo);
+                        tileChildCount++;
+                        if (WallPlacement.validPlacement(Convert.ToInt32(parentToReturnTo.transform.name)))
+                        {
+                            Debug.Log("Solid wall placed");
+                            this.transform.SetParent(parentToReturnTo);
+                            tileChildCount++;
+                        }
+                        else
+                        {
+                            Debug.Log("Path blocked cant place wall there");
+                            this.transform.SetParent(originParent.transform);//not vallid placement
+                        }//*/
+                    }
+                    else
+                    {
+                        Debug.Log("Ice wall placed");
+                        this.transform.SetParent(parentToReturnTo);
+                        tileChildCount++;
+                    }
+                } else
+                {
+                    Debug.Log("space occupied cant place wall there");
+                    this.transform.SetParent(originParent.transform);
+                }
+                
             }
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;

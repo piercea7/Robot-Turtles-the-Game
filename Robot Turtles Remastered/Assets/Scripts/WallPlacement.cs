@@ -22,9 +22,10 @@ public class WallPlacement : MonoBehaviour {
         {
             Debug.Log("Found the exit");
             pathPossible = true;
+            return;
         }
 
-        if (lab[ro, co] != ' ')
+        if (lab[ro, co] != '-')
         {
             return;
         }
@@ -36,14 +37,14 @@ public class WallPlacement : MonoBehaviour {
         FindPath(ro, co + 1);
         FindPath(ro + 1, co);
 
-        lab[ro, co] = ' ';
+        lab[ro, co] = '-';
     }
 
     static void ConvertBoard(int newPiece)
     {
         for (int i = 0; i < 64; i++)
         {
-            BoardToArray(i);
+            BoardToArray(i + 1);
             if ((row != -1) && (col != -1))
             {
                 if (GameObject.Find((i + 1).ToString()).transform.childCount > 0)
@@ -51,9 +52,9 @@ public class WallPlacement : MonoBehaviour {
                     if (GameObject.Find((i + 1).ToString()).transform.GetChild(0).transform.tag == "SolidWall") { lab[row, col] = '*'; }
                     else if (GameObject.Find((i + 1).ToString()).transform.GetChild(0).transform.tag == "Gem") { lab[row, col] = 'e'; }
                     else if ((i + 1) == newPiece) { lab[row, col] = '*'; }
-                    else { lab[row, col] = ' '; }
+                    else { lab[row, col] = '-'; }
                 }
-                else { lab[row, col] = ' '; }
+                else { lab[row, col] = '-'; }
             }
             //else { i = i - 1; }
             row = -1;
@@ -120,14 +121,14 @@ public class WallPlacement : MonoBehaviour {
         else if (t == 54) { row = 6; col = 5; }
         else if (t == 55) { row = 6; col = 6; }
         else if (t == 56) { row = 6; col = 7; }
-        else if (t == 57) { row = 6; col = 0; }
-        else if (t == 58) { row = 6; col = 1; }
-        else if (t == 59) { row = 6; col = 2; }
-        else if (t == 60) { row = 6; col = 3; }
-        else if (t == 61) { row = 6; col = 4; }
-        else if (t == 62) { row = 6; col = 5; }
-        else if (t == 63) { row = 6; col = 6; }
-        else if (t == 64) { row = 6; col = 7; }
+        else if (t == 57) { row = 7; col = 0; }
+        else if (t == 58) { row = 7; col = 1; }
+        else if (t == 59) { row = 7; col = 2; }
+        else if (t == 60) { row = 7; col = 3; }
+        else if (t == 61) { row = 7; col = 4; }
+        else if (t == 62) { row = 7; col = 5; }
+        else if (t == 63) { row = 7; col = 6; }
+        else if (t == 64) { row = 7; col = 7; }
         else { row = -1; col = -1; }
     }
 
@@ -135,7 +136,11 @@ public class WallPlacement : MonoBehaviour {
     {
         pathPossible = false;
         ConvertBoard(newPos);
-        return true;
+        for (int i = 0; i < 8; i++)
+        {
+            Debug.Log(lab[i, 0] + " " + lab[i, 1] + " " + lab[i, 2] + " " + lab[i, 3] + " " + lab[i, 4] + " " + lab[i, 5] + " " + lab[i, 6] + " " + lab[i, 7] + " ");
+        }
+        //return true;
         if (ButtonManager.numPlayers == 4)
         {
             bool p0 = false;

@@ -8,28 +8,13 @@ using UnityEngine.EventSystems;
 
 public class WallPlacement : MonoBehaviour {
     static char[,] lab = new char[8, 8];
-    static bool pathPossible = false;
     static int row = 0;
     static int col = 0;
     static bool FindPath(int ro, int co)
     {
-        if ((co < 0) || (ro < 0) || (co > 7) || (ro > 7))
-        {
-            return false;
-        }
-
-        if (lab[ro, co] == 'e')
-        {
-            Debug.Log("Found the exit");
-            pathPossible = true;
-            return true;
-        }
-
-        if (lab[ro, co] != '-')
-        {
-            return false;
-        }
-
+        if ((co < 0) || (ro < 0) || (co > 7) || (ro > 7)) { return false; }
+        if (lab[ro, co] == 'e') { Debug.Log("Found the gem"); return true; }
+        if (lab[ro, co] != '-') { return false; }
         lab[ro, co] = 's';
         if (FindPath(ro, co - 1) || FindPath(ro - 1, co) || FindPath(ro, co + 1) || FindPath(ro + 1, co)) { lab[ro, co] = '-'; return true; }
         else { lab[ro, co] = '-'; return false; }
@@ -130,7 +115,7 @@ public class WallPlacement : MonoBehaviour {
 
     public static bool validPlacement(int newPos)
     {
-        pathPossible = false;
+        bool p0 = false, p1 = false, p2 = false, p3 = false, p0s = false, p1s = false, p2s = false, p3s = false;
         ConvertBoard(newPos);
         for (int i = 0; i < 8; i++)
         {
@@ -139,124 +124,75 @@ public class WallPlacement : MonoBehaviour {
         Debug.Log(ButtonManager.numPlayers);
         if (ButtonManager.numPlayers == 4)
         {
-            bool p0 = false;
-            bool p1 = false;
-            bool p2 = false;
-            bool p3 = false;
+            if (newPos == 57 || newPos == 59 || newPos == 62 || newPos == 64) { return false; } //cant place wall on turtle spawn
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {  
-                if (FindPath(row, col))
-                {
-                    p0 = true;
-                    pathPossible = false;
-                }
-            }
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name)); //checking path from turtles
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p1 = true;
-                    pathPossible = false;
-                }
-            }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p2 = true;
-                    pathPossible = false;
-                }
-            }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p2 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle3(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p3 = true;
-                    pathPossible = false;
-                }
-            }
-            Debug.Log("p0 = " + p0 + " p1 = " + p1 + " p2 = " + p2 + " p3 = " + p3);
-            if (p0 && p1 && p2 && p3) { return true; }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p3 = true; } } //checking path from spawns
+            BoardToArray(58);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0s = true; } }
+            row = -1; col = -1;
+            BoardToArray(61);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1s = true; } }
+            row = -1; col = -1;
+            BoardToArray(64);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p2s = true; } }
+            row = -1; col = -1;
+            BoardToArray(64);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p3s = true; } }
+            if (p0 && p1 && p2 && p3 && p0s && p1s && p2s && p3s) { return true; }
             else { return false; }
         }
         else if (ButtonManager.numPlayers == 3)
         {
-            bool p0 = false;
-            bool p1 = false;
-            bool p2 = false;
+            if (newPos == 58 || newPos == 61 || newPos == 64) { return false; } //cant place wall on turtle spawn
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p0 = true;
-                    pathPossible = false;
-                }
-            }
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name)); //checking path from turtles
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p1 = true;
-                    pathPossible = false;
-                }
-            }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle2(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p2 = true;
-                    pathPossible = false;
-                }
-            }
-            if (p0 && p1 && p2) { return true; }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p2 = true; } }
+            row = -1; col = -1;
+            BoardToArray(58);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0s = true; } } //checking path from spawns
+            row = -1; col = -1;
+            BoardToArray(61);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1s = true; } }
+            row = -1; col = -1;
+            BoardToArray(64);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p2s = true; } }
+            if (p0 && p1 && p2 && p0s && p1s && p2s) { return true; }
             else { return false; }
         }
         else if (ButtonManager.numPlayers == 2)
         {
-            bool p0 = false;
-            bool p1 = false;
+            if (newPos == 59 || newPos == 63) { return false; } //cant place wall on turtle spawn
             row = -1; col = -1;
-            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p0 = true;
-                    pathPossible = false;
-                }
-            }
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name)); //checking path from turtles
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0 = true; } }
             row = -1; col = -1;
             BoardToArray(Convert.ToInt32(GameObject.Find("Turtle1(Clone)").transform.parent.name));
-            if ((row != -1) && (col != -1))
-            {
-                if (FindPath(row, col))
-                {
-                    p1 = true;
-                    pathPossible = false;
-                }
-            }
-            if (p0 && p1) { return true; }
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1 = true; } }
+            row = -1; col = -1;
+            BoardToArray(59);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0s = true; } } //checking path from spawns
+            row = -1; col = -1;
+            BoardToArray(63);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1s = true; } }
+            if (p0 && p1 && p0s && p1s) { return true; }
             else { return false; }
-        }
-        else
-        {
-            Debug.Log("Error cant get numPlayers");
-            return false;
-        }//*/
+        } else { Debug.Log("Error cant get numPlayers"); return false; }//*/
     }
 
     // Use this for initialization

@@ -129,43 +129,32 @@ public class runFunc : MonoBehaviour {
         {
             Debug.Log("found player 0");
             curPlayer = GameObject.Find("Turtle0(Clone)");
-            hand = GameObject.Find("Function");
-            Debug.Log("setting function size to 0");
             GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
-            Debug.Log("function should be 0");
         }
         else if (cp == 1)
         {
             Debug.Log("found player 1");
             curPlayer = GameObject.Find("Turtle1(Clone)");
-            hand = GameObject.Find("Function");
             GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
         }
         else if (cp == 2)
         {
             Debug.Log("found player 2");
             curPlayer = GameObject.Find("Turtle2(Clone)");
-            hand = GameObject.Find("Function");
             GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
         }
         else
         {
             Debug.Log("found player 3");
             curPlayer = GameObject.Find("Turtle3(Clone)");
-            hand = GameObject.Find("Function");
             GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
-        }        
+        }
+        hand = GameObject.Find("Function");
         int numPlayers = ButtonManager.numPlayers;
-        int north = 270;
-        int east = 180;
-        int south = 90;
-        int west = 0;
-        Debug.Log("child count = " + hand.transform.childCount);
-        Debug.Log("child count = " + hand.transform.childCount);
+        int north = 270, east = 180, south = 90, west = 0;
         foreach (Transform child in hand.transform)
         {
             Debug.Log("child count = " + hand.transform.childCount);
-            Debug.Log("looping though function");
             int parent = Convert.ToInt32(curPlayer.transform.parent.name);
             Vector3 curRot = curPlayer.transform.transform.eulerAngles;
             Debug.Log("curRot = " + curRot);
@@ -178,25 +167,13 @@ public class runFunc : MonoBehaviour {
                     Debug.Log("newPos = " + newPos.transform.name);
                     if (parent > 8)
                     {
-                        if (newPos.transform.childCount == 0)
-                        {
-                             Debug.Log((parent - 8).ToString());
-                             curPlayer.transform.SetParent(newPos.transform);
-                        }
+                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
                         else if (newPos.transform.childCount > 0)
                         {
                             Transform c = newPos.transform.GetChild(0);
                             Debug.Log("c.tag = " + c.tag);
-                            if (c.tag == "Turtle")
-                            {
-                                Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
-                                //send both turtles to spawn location
-                            }
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall")
-                            {
-                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                            }
+                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
@@ -209,45 +186,24 @@ public class runFunc : MonoBehaviour {
                                     Transform t = newPos.transform.GetChild(1);
                                     sendToStart(t.gameObject, curPlayer, numPlayers, north);
                                 }
-                                else
-                                {
-                                    curPlayer.transform.SetParent(newPos.transform);
-                                }
+                                else { curPlayer.transform.SetParent(newPos.transform); }
                             }
-                            else
-                            {
-                                //this should never happen
-                            }
+                            else { } //this should never happen
                         }
                     }
-                    else
-                    {
-                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                    }
+                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                 }
                 else if (curRot.z == south)
                 {
                     GameObject newPos = GameObject.Find((parent + 8).ToString());
                     if (parent < 57)
                     {
-                        if (newPos.transform.childCount == 0)
-                        {
-                            Debug.Log((parent - 8).ToString());
-                            curPlayer.transform.SetParent(newPos.transform);
-                        }
+                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
                         else if (newPos.transform.childCount == 1)
                         {
                             Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
-                                //send both turtles to spawn location
-                            }
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall")
-                            {
-                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                            }
+                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
@@ -260,45 +216,24 @@ public class runFunc : MonoBehaviour {
                                     Transform t = newPos.transform.GetChild(1);
                                     sendToStart(t.gameObject, curPlayer, numPlayers, north);
                                 }
-                                else
-                                {
-                                    curPlayer.transform.SetParent(newPos.transform);
-                                }
+                                else { curPlayer.transform.SetParent(newPos.transform); }
                             }
-                            else
-                            {
-                                //this should never happen
-                            }
+                            else { } //this should never happen
                         }
                     }
-                    else
-                    {
-                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-                    }
+                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
                 }
                 else if (curRot.z == east)
                 {
                     GameObject newPos = GameObject.Find((parent + 1).ToString());
                     if ((parent % 8) != 0)
                     {
-                        if (newPos.transform.childCount == 0)
-                        {
-                            Debug.Log((parent - 8).ToString());
-                            curPlayer.transform.SetParent(newPos.transform);
-                        }
+                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
                         else if (newPos.transform.childCount > 0)
                         {
                             Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
-                                //send both turtles to spawn location
-                            }
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall")
-                            {
-                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                            }
+                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
@@ -311,45 +246,24 @@ public class runFunc : MonoBehaviour {
                                     Transform t = newPos.transform.GetChild(1);
                                     sendToStart(t.gameObject, curPlayer, numPlayers, north);
                                 }
-                                else
-                                {
-                                    curPlayer.transform.SetParent(newPos.transform);
-                                }
+                                else { curPlayer.transform.SetParent(newPos.transform); }
                             }
-                            else
-                            {
-                                //this should never happen
-                            }
+                            else { } //this should never happen
                         }
                     }
-                    else
-                    {
-                        curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0));
-                    }
+                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
                 }
                 else if (curRot.z == west)
                 {
                     GameObject newPos = GameObject.Find((parent - 1).ToString());
                     if ((((parent - 1) % 8) != 0 || parent == 1))
                     {
-                        if (newPos.transform.childCount == 0)
-                        {
-                            Debug.Log((parent - 8).ToString());
-                            curPlayer.transform.SetParent(newPos.transform);
-                        }
+                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
                         else if (newPos.transform.childCount > 0)
                         {
                             Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                Debug.Log("Turtle collision happened");
-                                sendToStart(c.gameObject, curPlayer, numPlayers, north);
-                                //send both turtles to spawn location
-                            }
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall")
-                            {
-                                curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                            }
+                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
@@ -362,60 +276,27 @@ public class runFunc : MonoBehaviour {
                                     Transform t = newPos.transform.GetChild(1);
                                     sendToStart(t.gameObject, curPlayer, numPlayers, north);
                                 }
-                                else
-                                {
-                                    curPlayer.transform.SetParent(newPos.transform);
-                                }
+                                else { curPlayer.transform.SetParent(newPos.transform); }
                             }
-                            else
-                            {
-                                //this should never happen
-                            }
+                            else { } //this should never happen
                         }
                     }
-                    else
-                    {
-                       curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east));
-                    }
+                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
                 }
             }
             else if (tag == "Left")
             {
-                if (curRot.z == west)
-                {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south));
-                }
-                else if (curRot.z == north)
-                {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0));
-                }
-                else if (curRot.z == east)
-                {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north));
-                }
-                else if (curRot.z == south)
-                {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, east));
-                }
+                if (curRot.z == west) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+                else if (curRot.z == east) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
+                else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, east)); }
             }
             else if (tag == "Right")
             {
-                if (curRot.z == west)
-                {
-                   curPlayer.transform.eulerAngles = (new Vector3(0, 0, north));
-                }
-                else if (curRot.z == south)
-                {
-                   curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0));
-                }
-                else if (curRot.z == east)
-                {
-                    curPlayer.transform.eulerAngles = (new Vector3(0, 0, south));
-                }
-                else if (curRot.z == north)
-                {
-                    curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east));
-                }
+                if (curRot.z == west) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, north)); }
+                else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+                else if (curRot.z == east) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
             }
             else if (tag == "Laser")
             {
@@ -474,7 +355,7 @@ public class runFunc : MonoBehaviour {
                                 GameObject.Destroy(c.gameObject);
                                 GameObject Square = GameObject.Find(p.ToString());
                                 GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
-                                 pud.transform.SetParent(Square.transform);
+                                pud.transform.SetParent(Square.transform);
                                 break;
                             }
                             else if (c.tag == "Puddle")

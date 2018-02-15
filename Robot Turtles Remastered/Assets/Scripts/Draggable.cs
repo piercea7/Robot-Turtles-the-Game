@@ -72,10 +72,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Debug.Log(zone);
         if (zone == DropZone.DropZoneType.BoardZone)
         {
-            if (this.transform.tag != "SolidWall" && this.transform.tag != "IceWall")
-            {
-                this.transform.SetParent(originParent.transform);
-            }
+            if (this.transform.tag != "SolidWall" && this.transform.tag != "IceWall") { this.transform.SetParent(originParent.transform); }
             else
             {
                 if (parentToReturnTo.transform.childCount == 0)
@@ -91,11 +88,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                             this.transform.SetParent(parentToReturnTo);
                             tileChildCount++;
                         }
-                        else
-                        {
-                            Debug.Log("Path blocked cant place wall there");
-                            this.transform.SetParent(originParent.transform);//not vallid placement
-                        }//*/
+                        else { this.transform.SetParent(originParent.transform); }//*/ //not vallid placement
                     }
                     else
                     {
@@ -103,12 +96,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                         this.transform.SetParent(parentToReturnTo);
                         tileChildCount++;
                     }
-                } else
-                {
-                    Debug.Log("space occupied cant place wall there");
-                    this.transform.SetParent(originParent.transform);
-                }
-                
+                } else { this.transform.SetParent(originParent.transform); } //space occupied cant place wall there
+
             }
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -130,7 +119,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 Sprite blankCard = Resources.Load<Sprite>("blank_card");
                 this.GetComponent<Image>().sprite = blankCard;
                 Destroy(placeholder);
-                //Destroy(originParent);
             }
         } else if (zone == DropZone.DropZoneType.HandZone)
         {
@@ -138,7 +126,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;
             Destroy(placeholder);
-            //Destroy(originParent);
         }
         else if (zone == DropZone.DropZoneType.DeckZone)
         {
@@ -146,14 +133,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;
             Destroy(placeholder);
-            //Destroy(originParent);
         } else if (zone == DropZone.DropZoneType.FieldZone)
         {
             this.transform.SetParent(parentToReturnTo);
             this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;
             Destroy(placeholder);
-            //Destroy(originParent);
         } else if (zone == DropZone.DropZoneType.TileZone)
         {
             if (this.transform.tag != "SolidWall" && this.transform.tag != "IceWall")
@@ -162,7 +147,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                 GetComponent<CanvasGroup>().blocksRaycasts = true;
                 Destroy(placeholder);
-                //Destroy(originParent);
             }
             else
             {
@@ -170,11 +154,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                 GetComponent<CanvasGroup>().blocksRaycasts = true;
                 Destroy(placeholder);
-                //Destroy(originParent);
             }
         } else if (zone == DropZone.DropZoneType.DiscardZone)
         {
-            Debug.Log(this.tag);
             if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser")
             {
                 this.transform.SetParent(originParent.transform);
@@ -192,7 +174,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 this.GetComponent<Image>().sprite = blankCard;
                 Destroy(this.gameObject);
                 Destroy(placeholder);
-                //Destroy(originParent);
             }
         } else
         {
@@ -209,10 +190,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
         {
             Debug.Log("Disabling Hand");
-            /*foreach (Transform child in GameObject.Find("Hand").transform)
-            {
-                child.GetComponent<Draggable>().enabled = false;
-            }*/
             GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = false;
             Debug.Log("Disabling TileZone");
             foreach (Transform child in GameObject.Find("TileZone").transform)

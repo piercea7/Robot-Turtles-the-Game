@@ -1,4 +1,13 @@
-﻿using System.Collections;
+﻿/*Author: Michael Majercak
+ * Date: Febuary 22, 2018
+ * Description: This script is designed to load and transition through different scenes.
+ *              Depending on which button is clicked, it will load the scene it is set 
+ *              transition to.
+ * 
+ */
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

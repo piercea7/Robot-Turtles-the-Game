@@ -15,7 +15,7 @@ public class Lobby : PunBehaviour {
     /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
     /// </summary>  
     [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-    public byte MaxPlayersPerRoom = 2;
+    public byte MaxPlayersPerRoom = 4;
 
     // Use this for initialization
     void Start ()

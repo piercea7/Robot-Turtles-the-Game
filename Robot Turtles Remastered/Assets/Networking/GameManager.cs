@@ -17,14 +17,14 @@ public class GameManager : PunBehaviour{
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.
     /// </summary>
-    public void OnLeftRoom()
+    public override void OnLeftRoom()
     {
         SceneManager.LoadScene(0);
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer other)
     {
-        Debug.Log("OnPhotonPlayerConnected() " + other.name); // not seen if you're the player connecting
+        Debug.Log("OnPhotonPlayerConnected() " + other.NickName); // not seen if you're the player connecting
 
 
         if (PhotonNetwork.isMasterClient)
@@ -39,7 +39,7 @@ public class GameManager : PunBehaviour{
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
     {
-        Debug.Log("OnPhotonPlayerDisconnected() " + other.name); // seen when other disconnects
+        Debug.Log("OnPhotonPlayerDisconnected() " + other.NickName); // seen when other disconnects
 
 
         if (PhotonNetwork.isMasterClient)
@@ -73,9 +73,12 @@ public class GameManager : PunBehaviour{
         {
             Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
 
-                Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.playerCount);
+                Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount);
                 loadedLobby = true;
-                PhotonNetwork.LoadLevel("BattleGround");
+
+                ButtonManager.numPlayers = PhotonNetwork.room.PlayerCount;
+                PhotonNetwork.LoadLevel("gameBoard");
+            
         }
     }
 

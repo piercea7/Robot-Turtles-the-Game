@@ -128,6 +128,7 @@ public class runFunc : MonoBehaviour {
         if (cp == 0)
         {
             Debug.Log("found player 0");
+            ButtonManager.winner = "player 0";
             curPlayer = GameObject.Find("Turtle0(Clone)");
             GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
         }
@@ -135,18 +136,21 @@ public class runFunc : MonoBehaviour {
         {
             Debug.Log("found player 1");
             curPlayer = GameObject.Find("Turtle1(Clone)");
+            ButtonManager.winner = "player 1";
             GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
         }
         else if (cp == 2)
         {
             Debug.Log("found player 2");
             curPlayer = GameObject.Find("Turtle2(Clone)");
+            ButtonManager.winner = "player 2";
             GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
         }
         else
         {
             Debug.Log("found player 3");
             curPlayer = GameObject.Find("Turtle3(Clone)");
+            ButtonManager.winner = "player 3";
             GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
         }
         hand = GameObject.Find("Function");
@@ -177,6 +181,7 @@ public class runFunc : MonoBehaviour {
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
+                                SceneManager.LoadScene("Win");
                                 //WIN SCREEN GOES HERE
                             }
                             else if (c.tag == "Puddle")
@@ -207,6 +212,7 @@ public class runFunc : MonoBehaviour {
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
+                                SceneManager.LoadScene("Win");
                                 //WIN SCREEN GOES HERE
                             }
                             else if (c.tag == "Puddle")
@@ -237,6 +243,7 @@ public class runFunc : MonoBehaviour {
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
+                                SceneManager.LoadScene("Win");
                                 //WIN SCREEN GOES HERE
                             }
                             else if (c.tag == "Puddle")
@@ -267,6 +274,7 @@ public class runFunc : MonoBehaviour {
                             else if (c.tag == "Gem")
                             {
                                 curPlayer.transform.SetParent(newPos.transform);
+                                SceneManager.LoadScene("Win");
                                 //WIN SCREEN GOES HERE
                             }
                             else if (c.tag == "Puddle")

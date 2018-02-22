@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
     public static int numPlayers;
+    public static string winner = "No One";
     public void HotSeatPlayButton(string hotSeat)
     {
         SceneManager.LoadScene(hotSeat);

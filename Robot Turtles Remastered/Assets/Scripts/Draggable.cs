@@ -20,7 +20,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	public void OnBeginDrag(PointerEventData eventData) {
         handChildCount = GameObject.Find("Hand").transform.childCount;
         tileChildCount = GameObject.Find("TileZone").transform.childCount;
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
 		placeholder = new GameObject();
         originParent = new GameObject();
         originParent = this.transform.parent.gameObject;
@@ -41,7 +41,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	}
 	
 	public void OnDrag(PointerEventData eventData) {
-        Debug.Log("OnDrag");
+        //Debug.Log("OnDrag");
         this.transform.position = eventData.position;
 
         if(placeholder.transform.parent != placeholderParent)
@@ -68,7 +68,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnEndDrag(PointerEventData eventData)
     {
         DropZone.DropZoneType zone = DropZone.zone;
-        Debug.Log("OnEndDrag");
+        //Debug.Log("OnEndDrag");
         Debug.Log(zone);
         if (zone == DropZone.DropZoneType.BoardZone)
         {
@@ -79,12 +79,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 {
                     if (this.transform.tag == "SolidWall")
                     {
-                        Debug.Log("Solid wall placed");
+                        //Debug.Log("Solid wall placed");
                         this.transform.SetParent(parentToReturnTo);
                         tileChildCount++;
                         if (WallPlacement.validPlacement(Convert.ToInt32(parentToReturnTo.transform.name)))
                         {
-                            Debug.Log("Solid wall placed");
+                            //Debug.Log("Solid wall placed");
                             this.transform.SetParent(parentToReturnTo);
                             tileChildCount++;
                         }
@@ -183,25 +183,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         }
         DropZone.zone = DropZone.DropZoneType.empty;
-        Debug.Log("handChildCount = " + handChildCount);
-        Debug.Log("GameObject.Find('Hand').transform.childCount = " + GameObject.Find("Hand").transform.childCount);
-        Debug.Log("tileChildCount = " + tileChildCount);
-        Debug.Log("GameObject.Find('TileZone').transform.childCount = " + GameObject.Find("TileZone").transform.childCount);
+        //Debug.Log("handChildCount = " + handChildCount);
+        //Debug.Log("GameObject.Find('Hand').transform.childCount = " + GameObject.Find("Hand").transform.childCount);
+        //Debug.Log("tileChildCount = " + tileChildCount);
+        //Debug.Log("GameObject.Find('TileZone').transform.childCount = " + GameObject.Find("TileZone").transform.childCount);
         if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
         {
-            Debug.Log("Disabling Hand");
+            //Debug.Log("Disabling Hand");
             GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = false;
-            Debug.Log("Disabling TileZone");
+            //Debug.Log("Disabling TileZone");
             foreach (Transform child in GameObject.Find("TileZone").transform)
             {
                 child.GetComponent<Draggable>().enabled = false;
             }
-            Debug.Log("Disabling Run Function");
+            //Debug.Log("Disabling Run Function");
             GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
         }
         if (handChildCount > GameObject.Find("Hand").transform.childCount)
         {
-            Debug.Log("Disabling TileZone");
+            //Debug.Log("Disabling TileZone");
             foreach (Transform child in GameObject.Find("TileZone").transform)
             {
                 child.GetComponent<Draggable>().enabled = false;

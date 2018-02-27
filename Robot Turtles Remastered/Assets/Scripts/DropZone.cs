@@ -20,7 +20,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public DropZoneType zoneType = DropZoneType.FieldZone;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OnPointerEnter");
+        //Debug.Log("OnPointerEnter");
         if (eventData.pointerDrag == null)
             return;
 
@@ -60,7 +60,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             zone = zoneType;
             //logic for drop conditions go into here
-            Debug.Log("Zone type = " + zoneType);
+            //Debug.Log("Zone type = " + zoneType);
             if (zoneType == DropZoneType.FunctionZone)
             {
                 //Sprite blankCard = Resources.Load<Sprite>("blank_card");

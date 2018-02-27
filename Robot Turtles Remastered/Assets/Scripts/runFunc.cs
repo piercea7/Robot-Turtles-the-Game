@@ -7,7 +7,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class runFunc : MonoBehaviour {
-
+    int north = 270, east = 180, south = 90, west = 0;
+    int numPlayers = ButtonManager.numPlayers;
     void sendToStart(GameObject t1, GameObject t2, int numPlayers, int north)
     {
         Debug.Log("in sendToStart");
@@ -120,42 +121,353 @@ public class runFunc : MonoBehaviour {
 49  50  51  52  53  54  55  56 
 57  58  59  60  61  62  63  64
      */
-    public void runFunct(int cp)
+     public GameObject findCurPlayer (int cp)
     {
-        Debug.Log("looking for player " + cp);
-        GameObject curPlayer;
-        GameObject hand;
         if (cp == 0)
         {
             Debug.Log("found player 0");
             ButtonManager.winner = "player 0";
-            curPlayer = GameObject.Find("Turtle0(Clone)");
+            
             GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
+            return GameObject.Find("Turtle0(Clone)");
         }
         else if (cp == 1)
         {
             Debug.Log("found player 1");
-            curPlayer = GameObject.Find("Turtle1(Clone)");
             ButtonManager.winner = "player 1";
             GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
+            return GameObject.Find("Turtle1(Clone)");
         }
         else if (cp == 2)
         {
             Debug.Log("found player 2");
-            curPlayer = GameObject.Find("Turtle2(Clone)");
+            
             ButtonManager.winner = "player 2";
             GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
+            return GameObject.Find("Turtle2(Clone)");
         }
         else
         {
             Debug.Log("found player 3");
-            curPlayer = GameObject.Find("Turtle3(Clone)");
+            
             ButtonManager.winner = "player 3";
             GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
+            return GameObject.Find("Turtle3(Clone)");
         }
-        hand = GameObject.Find("Function");
-        int numPlayers = ButtonManager.numPlayers;
-        int north = 270, east = 180, south = 90, west = 0;
+    }
+    public void moveForward(GameObject curPlayer, int parent, Vector3 curRot)
+    {
+        if (curRot.z == north)
+        {
+            GameObject newPos = GameObject.Find((parent - 8).ToString());
+            Debug.Log("newPos = " + newPos.transform.name);
+            if (parent > 8)
+            {
+                if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
+                else if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    Debug.Log("c.tag = " + c.tag);
+                    if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                    else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                    else if (c.tag == "Gem")
+                    {
+                        Debug.Log("found gem");
+                        curPlayer.transform.SetParent(newPos.transform);
+                        SceneManager.LoadScene("Win");
+                        //WIN SCREEN GOES HERE
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                        }
+                        else { curPlayer.transform.SetParent(newPos.transform); }
+                    }
+                    else { } //this should never happen
+                }
+            }
+            else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+        }
+        else if (curRot.z == south)
+        {
+            GameObject newPos = GameObject.Find((parent + 8).ToString());
+            if (parent < 57)
+            {
+                if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
+                else if (newPos.transform.childCount == 1)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                    else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                    else if (c.tag == "Gem")
+                    {
+                        Debug.Log("found gem");
+                        curPlayer.transform.SetParent(newPos.transform);
+                        SceneManager.LoadScene("Win");
+                        //WIN SCREEN GOES HERE
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                        }
+                        else { curPlayer.transform.SetParent(newPos.transform); }
+                    }
+                    else { } //this should never happen
+                }
+            }
+            else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
+        }
+        else if (curRot.z == east)
+        {
+            GameObject newPos = GameObject.Find((parent + 1).ToString());
+            if ((parent % 8) != 0)
+            {
+                if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
+                else if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                    else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                    else if (c.tag == "Gem")
+                    {
+                        Debug.Log("found gem");
+                        curPlayer.transform.SetParent(newPos.transform);
+                        SceneManager.LoadScene("Win");
+                        //WIN SCREEN GOES HERE
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                        }
+                        else { curPlayer.transform.SetParent(newPos.transform); }
+                    }
+                    else { } //this should never happen
+                }
+            }
+            else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+        }
+        else if (curRot.z == west)
+        {
+            GameObject newPos = GameObject.Find((parent - 1).ToString());
+            if ((((parent - 1) % 8) != 0 || parent == 1))
+            {
+                if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
+                else if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
+                    else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+                    else if (c.tag == "Gem")
+                    {
+                        Debug.Log("found gem");
+                        curPlayer.transform.SetParent(newPos.transform);
+                        SceneManager.LoadScene("Win");
+                        //WIN SCREEN GOES HERE
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, curPlayer, numPlayers, north);
+                        }
+                        else { curPlayer.transform.SetParent(newPos.transform); }
+                    }
+                    else { } //this should never happen
+                }
+            }
+            else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
+        }
+    }
+    public void laser (int laserCheck)
+    {
+
+    }
+    public void fireLaser(GameObject curPlayer, int parent, Vector3 curRot)
+    {
+        if (curRot.z == west)
+        {
+            int laserCheck = parent - 1;
+            while ((laserCheck % 8) != 0)
+            {
+                GameObject newPos = GameObject.Find((laserCheck).ToString());
+                if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle")
+                    {
+                        sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                        break;
+                    }
+                    else if (c.tag == "Gem")
+                    {
+                        sendToStart(curPlayer, curPlayer, numPlayers, north);
+                        break;
+                    }
+                    else if (c.tag == "IceWall")
+                    {
+                        int p = Convert.ToInt32(c.transform.parent.name);
+                        GameObject.Destroy(c.gameObject);
+                        GameObject Square = GameObject.Find(p.ToString());
+                        GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
+                        pud.transform.SetParent(Square.transform);
+                        break;
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                            break;
+                        }
+                    }
+                }
+                laserCheck = laserCheck - 1;
+            }
+        }
+        else if (curRot.z == south)
+        {
+            int laserCheck = parent + 8;
+            while (laserCheck < 64)
+            {
+                GameObject newPos = GameObject.Find((laserCheck).ToString());
+                if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle")
+                    {
+                        sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                        break;
+                    }
+                    else if (c.tag == "IceWall")
+                    {
+                        int p = Convert.ToInt32(c.transform.parent.name);
+                        GameObject.Destroy(c.gameObject);
+                        GameObject Square = GameObject.Find(p.ToString());
+                        GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
+                        pud.transform.SetParent(Square.transform);
+                        break;
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                            break;
+                        }
+                    }
+                }
+                laserCheck = laserCheck + 8;
+            }
+        }
+        else if (curRot.z == east)
+        {
+            int laserCheck = parent + 1;
+            while (((laserCheck - 1) % 8) != 0)
+            {
+                Debug.Log((laserCheck + 1) % 8);
+                GameObject newPos = GameObject.Find((laserCheck).ToString());
+                if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle")
+                    {
+                        sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                        break;
+                    }
+                    else if (c.tag == "IceWall")
+                    {
+                        int p = Convert.ToInt32(c.transform.parent.name);
+                        GameObject.Destroy(c.gameObject);
+                        GameObject Square = GameObject.Find(p.ToString());
+                        GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
+                        pud.transform.SetParent(Square.transform);
+                        break;
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                            break;
+                        }
+                    }
+                }
+                laserCheck = laserCheck + 1;
+            }
+        }
+        else if (curRot.z == north)
+        {
+            int laserCheck = parent - 8;
+            while (laserCheck > 0)
+            {
+                GameObject newPos = GameObject.Find((laserCheck).ToString());
+                if (newPos.transform.childCount > 0)
+                {
+                    Transform c = newPos.transform.GetChild(0);
+                    if (c.tag == "Turtle")
+                    {
+                        sendToStart(c.gameObject, c.gameObject, numPlayers, north);
+                        break;
+                    }
+                    else if (c.tag == "IceWall")
+                    {
+                        int p = Convert.ToInt32(c.transform.parent.name);
+                        GameObject.Destroy(c.gameObject);
+                        GameObject Square = GameObject.Find(p.ToString());
+                        GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
+                        pud.transform.SetParent(Square.transform);
+                        break;
+                    }
+                    else if (c.tag == "Puddle")
+                    {
+                        if (newPos.transform.childCount == 2)
+                        {
+                            Transform t = newPos.transform.GetChild(1);
+                            sendToStart(t.gameObject, t.gameObject, numPlayers, north);
+                            break;
+                        }
+                    }
+                }
+                laserCheck = laserCheck - 8;
+            }
+        }
+    }
+    public void turn(GameObject curPlayer, int lr, Vector3 curRot)
+    {
+        if (lr == 0)// turn left 
+        {
+            if (curRot.z == west) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
+            else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+            else if (curRot.z == east) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
+            else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, east)); }
+        } else if (lr == 1) //turn right
+        {
+            if (curRot.z == west) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, north)); }
+            else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+            else if (curRot.z == east) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, south)); }
+            else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
+        }
+    }
+    public void runFunct(int cp)
+    {
+        Debug.Log("looking for player " + cp);
+        GameObject curPlayer = findCurPlayer(cp);
+        GameObject hand = GameObject.Find("Function");
+        numPlayers = ButtonManager.numPlayers;
+
         foreach (Transform child in hand.transform)
         {
             Debug.Log("child count = " + hand.transform.childCount);
@@ -165,293 +477,19 @@ public class runFunc : MonoBehaviour {
             string tag = child.tag;
             if (tag == "Forward")
             {
-                if (curRot.z == north)
-                {
-                    GameObject newPos = GameObject.Find((parent - 8).ToString());
-                    Debug.Log("newPos = " + newPos.transform.name);
-                    if (parent > 8)
-                    {
-                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
-                        else if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            Debug.Log("c.tag = " + c.tag);
-                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                            else if (c.tag == "Gem")
-                            {
-                                curPlayer.transform.SetParent(newPos.transform);
-                                SceneManager.LoadScene("Win");
-                                //WIN SCREEN GOES HERE
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
-                                }
-                                else { curPlayer.transform.SetParent(newPos.transform); }
-                            }
-                            else { } //this should never happen
-                        }
-                    }
-                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                }
-                else if (curRot.z == south)
-                {
-                    GameObject newPos = GameObject.Find((parent + 8).ToString());
-                    if (parent < 57)
-                    {
-                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
-                        else if (newPos.transform.childCount == 1)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                            else if (c.tag == "Gem")
-                            {
-                                curPlayer.transform.SetParent(newPos.transform);
-                                SceneManager.LoadScene("Win");
-                                //WIN SCREEN GOES HERE
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
-                                }
-                                else { curPlayer.transform.SetParent(newPos.transform); }
-                            }
-                            else { } //this should never happen
-                        }
-                    }
-                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
-                }
-                else if (curRot.z == east)
-                {
-                    GameObject newPos = GameObject.Find((parent + 1).ToString());
-                    if ((parent % 8) != 0)
-                    {
-                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
-                        else if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                            else if (c.tag == "Gem")
-                            {
-                                curPlayer.transform.SetParent(newPos.transform);
-                                SceneManager.LoadScene("Win");
-                                //WIN SCREEN GOES HERE
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
-                                }
-                                else { curPlayer.transform.SetParent(newPos.transform); }
-                            }
-                            else { } //this should never happen
-                        }
-                    }
-                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
-                }
-                else if (curRot.z == west)
-                {
-                    GameObject newPos = GameObject.Find((parent - 1).ToString());
-                    if ((((parent - 1) % 8) != 0 || parent == 1))
-                    {
-                        if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
-                        else if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
-                            else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                            else if (c.tag == "Gem")
-                            {
-                                curPlayer.transform.SetParent(newPos.transform);
-                                SceneManager.LoadScene("Win");
-                                //WIN SCREEN GOES HERE
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, curPlayer, numPlayers, north);
-                                }
-                                else { curPlayer.transform.SetParent(newPos.transform); }
-                            }
-                            else { } //this should never happen
-                        }
-                    }
-                    else { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
-                }
+                moveForward(curPlayer, parent, curRot);
             }
             else if (tag == "Left")
             {
-                if (curRot.z == west) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
-                else if (curRot.z == east) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
-                else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, east)); }
+                turn(curPlayer, 0, curRot);
             }
             else if (tag == "Right")
             {
-                if (curRot.z == west) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, north)); }
-                else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0)); }
-                else if (curRot.z == east) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, south)); }
-                else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
+                turn(curPlayer, 1, curRot);
             }
             else if (tag == "Laser")
             {
-                if (curRot.z == west)
-                {
-                    int laserCheck = parent - 1;
-                    while ((laserCheck % 8) != 0)
-                    {
-                        GameObject newPos = GameObject.Find((laserCheck).ToString());
-                        if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
-                                break;
-                            }
-                            else if (c.tag == "IceWall")
-                            {
-                                int p = Convert.ToInt32(c.transform.parent.name);
-                                GameObject.Destroy(c.gameObject);
-                                GameObject Square = GameObject.Find(p.ToString());
-                                GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
-                                pud.transform.SetParent(Square.transform);
-                                break;
-                            } else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
-                                    break;
-                                }
-                            }
-                        }
-                        laserCheck = laserCheck - 1;
-                    }
-                }
-                else if (curRot.z == south)
-                {
-                    int laserCheck = parent + 8;
-                    while (laserCheck < 64)
-                    {
-                        GameObject newPos = GameObject.Find((laserCheck).ToString());
-                        if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
-                                break;
-                            }
-                            else if (c.tag == "IceWall")
-                            {
-                                int p = Convert.ToInt32(c.transform.parent.name);
-                                GameObject.Destroy(c.gameObject);
-                                GameObject Square = GameObject.Find(p.ToString());
-                                GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
-                                pud.transform.SetParent(Square.transform);
-                                break;
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
-                                    break;
-                                }
-                            }
-                        }
-                        laserCheck = laserCheck + 8;
-                    }
-                }
-                else if (curRot.z == east)
-                {
-                    int laserCheck = parent + 1;
-                    while (((laserCheck - 1) % 8) != 0)
-                    {
-                        Debug.Log((laserCheck + 1) % 8);
-                        GameObject newPos = GameObject.Find((laserCheck).ToString());
-                        if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
-                                break;
-                            }
-                            else if (c.tag == "IceWall")
-                            {
-                                int p = Convert.ToInt32(c.transform.parent.name);
-                                GameObject.Destroy(c.gameObject);
-                                GameObject Square = GameObject.Find(p.ToString());
-                                GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
-                                pud.transform.SetParent(Square.transform);
-                                break;
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
-                                    break;
-                                }
-                            }
-                        }
-                        laserCheck = laserCheck + 1;
-                    }
-                }
-                else if (curRot.z == north)
-                {
-                    int laserCheck = parent - 8;
-                    while (laserCheck > 0)
-                    {
-                        GameObject newPos = GameObject.Find((laserCheck).ToString());
-                        if (newPos.transform.childCount > 0)
-                        {
-                            Transform c = newPos.transform.GetChild(0);
-                            if (c.tag == "Turtle")
-                            {
-                                sendToStart(c.gameObject, c.gameObject, numPlayers, north);
-                                break;
-                            }
-                            else if (c.tag == "IceWall")
-                            {
-                                int p = Convert.ToInt32(c.transform.parent.name);
-                                GameObject.Destroy(c.gameObject);
-                                GameObject Square = GameObject.Find(p.ToString());
-                                GameObject pud = (GameObject)Instantiate(Resources.Load("Puddle"));
-                                pud.transform.SetParent(Square.transform);
-                                break;
-                            }
-                            else if (c.tag == "Puddle")
-                            {
-                                if (newPos.transform.childCount == 2)
-                                {
-                                    Transform t = newPos.transform.GetChild(1);
-                                    sendToStart(t.gameObject, t.gameObject, numPlayers, north);
-                                    break;
-                                }
-                            }
-                        }
-                        laserCheck = laserCheck - 8;
-                    }
-                }
+               fireLaser(curPlayer, parent, curRot);
             }
             GameObject.Destroy(child.gameObject);
         }

@@ -24,36 +24,43 @@ public class spawn : MonoBehaviour {
     player2 {forward, left, right, laser, function}
     player3 {forward, left, right, laser, function}     
      */
-
-    public void drawCards()
+    public int getCurPlayer(string curPlayer)
     {
-        GameObject hand = GameObject.Find("Hand");
-        string curPlayer = hand.transform.parent.name;
-        int curP = -1;
         if (curPlayer == "player0")
         {
             GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
             GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
-            curP = 0;
+            return 0;
         }
         else if (curPlayer == "player1")
         {
             GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
             GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
-            curP = 1;
+            return 1;
         }
         else if (curPlayer == "player2")
         {
             GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
             GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
-            curP = 2;
+            return 2;
         }
         else if (curPlayer == "player3")
         {
             GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
             GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
-            curP = 3;
+            return 3;
         }
+        else
+        {
+            return -1;
+        }
+    }
+    public void drawCards()
+    {
+        GameObject hand = GameObject.Find("Hand");
+        string curPlayer = hand.transform.parent.name;
+        int curP = -1;
+        curP = getCurPlayer(curPlayer);
         Debug.Log("drawing cards for player " + curP);
         int i = hand.transform.childCount;
         while (i < 5)

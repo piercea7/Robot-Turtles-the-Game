@@ -192,7 +192,20 @@ public class WallPlacement : MonoBehaviour {
             if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p1s = true; } }
             if (p0 && p1 && p0s && p1s) { return true; }
             else { return false; }
-        } else { Debug.Log("Error cant get numPlayers"); return false; }//*/
+        } else if (ButtonManager.numPlayers == 1)
+        {
+            if (newPos == 57) { return false; } //cant place wall on turtle spawn
+            if (newPos == 8) { return false;  } //cant place wall on gem
+            row = -1; col = -1;
+            BoardToArray(Convert.ToInt32(GameObject.Find("Turtle0(Clone)").transform.parent.name)); //checking path from turtles
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0 = true; } }
+            row = -1; col = -1;
+            BoardToArray(57);
+            if ((row != -1) && (col != -1)) { if (FindPath(row, col)) { p0s = true; } } //checking path from spawns
+            if (p0) { return true; }
+            else { return false; }
+        }
+        else { Debug.Log("Error cant get numPlayers"); return false; }//*/
     }
 
     // Use this for initialization

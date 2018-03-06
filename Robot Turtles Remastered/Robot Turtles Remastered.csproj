@@ -453,6 +453,7 @@
     <Compile Include="Assets\Scripts\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\runFunc.cs" />
     <Compile Include="Assets\Scripts\spawn.cs" />
+    <Compile Include="Assets\Scripts\spSpawn.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />
     <Compile Include="Assets\Scripts\WallPlacement.cs" />
   </ItemGroup>

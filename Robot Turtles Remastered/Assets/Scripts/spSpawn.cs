@@ -27,13 +27,12 @@ public class spSpawn : MonoBehaviour {
     {
         GameObject hand = GameObject.Find("Hand");
         string curPlayer = hand.transform.parent.name;
-        int curP = -1;
-        curP = 0;
+        int curP = 0;
         Debug.Log("drawing cards for player " + curP);
         int i = hand.transform.childCount;
         while (i < 5)
         {
-            if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0 && cardManager[curP, 4] == 0)
+            if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 4] == 0)
             {
                 cardManager[curP, 0] = 18;
                 cardManager[curP, 1] = 8;
@@ -41,7 +40,7 @@ public class spSpawn : MonoBehaviour {
                 cardManager[curP, 3] = 5;
                 cardManager[curP, 4] = 5;
             }
-            int c = UnityEngine.Random.Range(0, 5);
+            int c = UnityEngine.Random.Range(0, 4);
             if (c == 0)
             {
                 //spawn forward
@@ -81,18 +80,6 @@ public class spSpawn : MonoBehaviour {
             }
             else if (c == 3)
             {
-                //spawn laser
-                if (cardManager[curP, 3] > 0)
-                {
-                    GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
-                    laser.transform.SetParent(hand.transform);
-                    cardManager[curP, 3] = cardManager[curP, 3] - 1;
-                    Debug.Log("laser cards left " + cardManager[curP, 3]);
-                    i++;
-                }
-            }
-            else if (c == 4)
-            {
                 //spawn function card
                 if (cardManager[curP, 4] > 0)
                 {
@@ -121,9 +108,11 @@ public class spSpawn : MonoBehaviour {
     void spawnCourse()
     {
         GameObject Square_1;
+        int max = UnityEngine.Random.Range(15, 20);
         int i = 0;
+        int rp = 0;
         ButtonManager.numPlayers = 1;
-        while (i < 20)
+        while (i < max)
         {
             int c = UnityEngine.Random.Range(9, 57);
             Debug.Log(c);
@@ -134,6 +123,14 @@ public class spSpawn : MonoBehaviour {
                 SolidWall.transform.SetParent(Square_1.transform);
                 SolidWall.GetComponent<Draggable>().enabled = false;
                 i++;
+                rp = 0;
+            } else
+            {
+                rp++;
+            }
+            if (rp == 10)
+            {
+                break;
             }
         }
     }

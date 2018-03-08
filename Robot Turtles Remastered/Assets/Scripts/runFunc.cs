@@ -491,6 +491,29 @@ public class runFunc : MonoBehaviour {
             {
                fireLaser(curPlayer, parent, curRot);
             }
+            else if (tag == "Function")
+            {
+                GameObject FCard = GameObject.Find("FCard");
+                foreach (Transform c in FCard.transform)
+                {
+                    if (tag == "Forward")
+                    {
+                        moveForward(curPlayer, parent, curRot);
+                    }
+                    else if (tag == "Left")
+                    {
+                        turn(curPlayer, 0, curRot);
+                    }
+                    else if (tag == "Right")
+                    {
+                        turn(curPlayer, 1, curRot);
+                    }
+                    else if (tag == "Laser")
+                    {
+                        fireLaser(curPlayer, parent, curRot);
+                    }
+                }
+            }
             GameObject.Destroy(child.gameObject);
         }
         spawn s = new spawn();

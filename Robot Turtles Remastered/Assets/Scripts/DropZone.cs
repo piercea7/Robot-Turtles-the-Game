@@ -14,6 +14,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         HandZone,
         DeckZone,
         BoardZone,
+        FCardZone,
         empty
     }
 

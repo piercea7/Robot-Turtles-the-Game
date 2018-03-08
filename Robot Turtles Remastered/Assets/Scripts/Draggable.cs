@@ -104,7 +104,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         } else if (zone == DropZone.DropZoneType.FunctionZone)
         {
-            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser")
+            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser" && this.tag != "FCard")
             {
                 this.transform.SetParent(originParent.transform);
                 this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
@@ -112,13 +112,28 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 Destroy(placeholder);
             } else
             {
-                this.transform.SetParent(parentToReturnTo);
-                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                this.GetComponent<Draggable>().enabled = false;
-                Sprite blankCard = Resources.Load<Sprite>("blank_card");
-                this.GetComponent<Image>().sprite = blankCard;
-                Destroy(placeholder);
+                Scene scene = SceneManager.GetActiveScene();
+                if (scene.name == "spGameBoard")
+                {
+                    Debug.Log(scene.name);
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    this.GetComponent<Draggable>().enabled = false;
+                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
+                    this.GetComponent<Image>().sprite = blankCard;
+                    Destroy(placeholder);
+                }
+                else
+                {
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    this.GetComponent<Draggable>().enabled = false;
+                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
+                    this.GetComponent<Image>().sprite = blankCard;
+                    Destroy(placeholder);
+                }
             }
         } else if (zone == DropZone.DropZoneType.HandZone)
         {
@@ -174,6 +189,33 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 this.GetComponent<Image>().sprite = blankCard;
                 Destroy(this.gameObject);
                 Destroy(placeholder);
+            }
+        } else if (zone == DropZone.DropZoneType.FCardZone)
+        {
+            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser")
+            {
+                this.transform.SetParent(originParent.transform);
+                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                GetComponent<CanvasGroup>().blocksRaycasts = true;
+                Destroy(placeholder);
+            }
+            else
+            {
+                if (GameObject.Find("FCard").transform.childCount < 5)
+                {
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    this.GetComponent<Draggable>().enabled = false;
+                    Destroy(placeholder);
+                }
+                else
+                {
+                    this.transform.SetParent(originParent.transform);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    Destroy(placeholder);
+                }
             }
         } else
         {

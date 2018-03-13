@@ -137,7 +137,44 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     Destroy(placeholder);
                 }
             }
-        } else if (zone == DropZone.DropZoneType.HandZone)
+        }
+        else if (zone == DropZone.DropZoneType.tempZone)
+        {
+            Debug.Log("in function zone");
+            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser" && this.tag != "FCard")
+            {
+                this.transform.SetParent(originParent.transform);
+                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                GetComponent<CanvasGroup>().blocksRaycasts = true;
+                Destroy(placeholder);
+            }
+            else
+            {
+                Scene scene = SceneManager.GetActiveScene();
+                if (scene.name == "spGameBoard")
+                {
+                    Debug.Log(scene.name);
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    this.GetComponent<Draggable>().enabled = false;
+                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
+                    this.GetComponent<Image>().sprite = blankCard;
+                    Destroy(placeholder);
+                }
+                else
+                {
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    this.GetComponent<Draggable>().enabled = false;
+                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
+                    this.GetComponent<Image>().sprite = blankCard;
+                    Destroy(placeholder);
+                }
+            }
+        }
+        else if (zone == DropZone.DropZoneType.HandZone)
         {
             originParent = GameObject.Find("Hand");
             this.transform.SetParent(originParent.transform);

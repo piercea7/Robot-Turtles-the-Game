@@ -24,6 +24,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 		placeholder = new GameObject();
         originParent = new GameObject();
         originParent = this.transform.parent.gameObject;
+        originParent = GameObject.Find("Hand");
 		placeholder.transform.SetParent( this.transform.parent );
 		LayoutElement le = placeholder.AddComponent<LayoutElement>();
 		le.preferredWidth = this.GetComponent<LayoutElement>().preferredWidth;
@@ -104,6 +105,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         } else if (zone == DropZone.DropZoneType.FunctionZone)
         {
+            Debug.Log("in function zone");
             if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser" && this.tag != "FCard")
             {
                 this.transform.SetParent(originParent.transform);
@@ -137,8 +139,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             }
         } else if (zone == DropZone.DropZoneType.HandZone)
         {
+            originParent = GameObject.Find("Hand");
             this.transform.SetParent(originParent.transform);
-            this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+            //this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
             GetComponent<CanvasGroup>().blocksRaycasts = true;
             Destroy(placeholder);
         }
@@ -204,7 +207,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 if (GameObject.Find("FCard").transform.childCount < 5)
                 {
                     this.transform.SetParent(parentToReturnTo);
-                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
+                    //this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                     GetComponent<CanvasGroup>().blocksRaycasts = true;
                     this.GetComponent<Draggable>().enabled = false;
                     Destroy(placeholder);
@@ -225,10 +228,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         }
         DropZone.zone = DropZone.DropZoneType.empty;
-        //Debug.Log("handChildCount = " + handChildCount);
-        //Debug.Log("GameObject.Find('Hand').transform.childCount = " + GameObject.Find("Hand").transform.childCount);
-        //Debug.Log("tileChildCount = " + tileChildCount);
-        //Debug.Log("GameObject.Find('TileZone').transform.childCount = " + GameObject.Find("TileZone").transform.childCount);
         if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
         {
             //Debug.Log("Disabling Hand");

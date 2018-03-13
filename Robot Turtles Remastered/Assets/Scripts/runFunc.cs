@@ -7,7 +7,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class runFunc : MonoBehaviour {
-    int north = 270, east = 180, south = 90, west = 0;
+    //int north = 270, east = 180, south = 90, west = 0;
+    int north = 90, east = 0, south = 270, west = 180;
     int numPlayers = ButtonManager.numPlayers;
     void sendToStart(GameObject t1, GameObject t2, int numPlayers, int north)
     {
@@ -450,13 +451,13 @@ public class runFunc : MonoBehaviour {
         if (lr == 0)// turn left 
         {
             if (curRot.z == west) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
-            else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+            else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, west)); }
             else if (curRot.z == east) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, north)); }
             else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, east)); }
         } else if (lr == 1) //turn right
         {
             if (curRot.z == west) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, north)); }
-            else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, 0)); }
+            else if (curRot.z == south) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, west)); }
             else if (curRot.z == east) { curPlayer.transform.eulerAngles = (new Vector3(0, 0, south)); }
             else if (curRot.z == north) { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, east)); }
         }

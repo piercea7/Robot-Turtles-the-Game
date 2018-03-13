@@ -12,7 +12,7 @@ public class spawn : MonoBehaviour {
     public Transform[] spawnLocations;
 	public GameObject[] whatToSpawnPrefab;
 	public GameObject[] whatToSpawnClone;
-    int[,] cardManager = new int[,]{ //number of each type of card
+    static int[,] cardManager = new int[,]{ //number of each type of card
                 {18, 8, 8, 5, 5},
                 {18, 8, 8, 5, 5},
                 {18, 8, 8, 5, 5},
@@ -24,12 +24,12 @@ public class spawn : MonoBehaviour {
     player2 {forward, left, right, laser, function}
     player3 {forward, left, right, laser, function}     
      */
-    public int getCurPlayer(string curPlayer)
+    public static int getCurPlayer(string curPlayer)
     {
         if (curPlayer == "player0")
         {
-            GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-            GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
+            //GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
+            //GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             return 0;
         }
         else if (curPlayer == "player1")
@@ -55,7 +55,7 @@ public class spawn : MonoBehaviour {
             return -1;
         }
     }
-    public void drawCards()
+    static public void drawCards()
     {
         GameObject hand = GameObject.Find("Hand");
         string curPlayer = hand.transform.parent.name;
@@ -73,9 +73,11 @@ public class spawn : MonoBehaviour {
                 cardManager[curP, 3] = 5;
                 cardManager[curP, 4] = 5;
             }
+            Debug.Log("spawning cards");
             int c = UnityEngine.Random.Range(0, 4);
             if (c == 0)
             {
+                
                 //spawn forward
                 if (cardManager[curP, 0] > 0)
                 {
@@ -276,7 +278,7 @@ public class spawn : MonoBehaviour {
     }
 
     void spawnSomethingPlease(int numPlayers) {
-        int north = 270;
+        int north = 90;
         if (numPlayers == 4)
         {
             GameObject Square_1 = GameObject.Find("57"); // spawn player 0

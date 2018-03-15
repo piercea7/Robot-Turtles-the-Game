@@ -13,7 +13,7 @@ public class WallPlacement : MonoBehaviour {
     static bool FindPath(int ro, int co)
     {
         if ((co < 0) || (ro < 0) || (co > 7) || (ro > 7)) { return false; }
-        if (lab[ro, co] == 'e') { Debug.Log("Found the gem"); return true; }
+        if (lab[ro, co] == 'e') { return true; }
         if (lab[ro, co] != '-') { return false; }
         lab[ro, co] = 's';
         if (FindPath(ro, co - 1) || FindPath(ro - 1, co) || FindPath(ro, co + 1) || FindPath(ro + 1, co)) { lab[ro, co] = '-'; return true; }
@@ -119,9 +119,9 @@ public class WallPlacement : MonoBehaviour {
         ConvertBoard(newPos);
         for (int i = 0; i < 8; i++)
         {
-            Debug.Log(lab[i, 0] + " " + lab[i, 1] + " " + lab[i, 2] + " " + lab[i, 3] + " " + lab[i, 4] + " " + lab[i, 5] + " " + lab[i, 6] + " " + lab[i, 7] + " ");
+            //Debug.Log(lab[i, 0] + " " + lab[i, 1] + " " + lab[i, 2] + " " + lab[i, 3] + " " + lab[i, 4] + " " + lab[i, 5] + " " + lab[i, 6] + " " + lab[i, 7] + " ");
         }
-        Debug.Log(ButtonManager.numPlayers);
+        //Debug.Log(ButtonManager.numPlayers);
         if (ButtonManager.numPlayers == 4)
         {
             if (newPos == 57 || newPos == 59 || newPos == 62 || newPos == 64) { return false; } //cant place wall on turtle spawn

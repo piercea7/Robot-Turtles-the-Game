@@ -19,8 +19,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 	public void OnBeginDrag(PointerEventData eventData) {
         handChildCount = GameObject.Find("Hand").transform.childCount;
-        tileChildCount = GameObject.Find("TileZone").transform.childCount;
-        //Debug.Log("OnBeginDrag");
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "spgameBoard2")
+        {
+            tileChildCount = GameObject.Find("TileZone").transform.childCount;
+        }
+        Debug.Log("OnBeginDrag");
 		placeholder = new GameObject();
         originParent = new GameObject();
         originParent = this.transform.parent.gameObject;
@@ -42,7 +46,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	}
 	
 	public void OnDrag(PointerEventData eventData) {
-        //Debug.Log("OnDrag");
+        Debug.Log("OnDrag");
         this.transform.position = eventData.position;
 
         if(placeholder.transform.parent != placeholderParent)
@@ -115,51 +119,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             } else
             {
                 Scene scene = SceneManager.GetActiveScene();
-                if (scene.name == "spGameBoard")
+                Debug.Log(scene);
+                if (scene.name == "spgameBoard2")
                 {
                     Debug.Log(scene.name);
                     this.transform.SetParent(parentToReturnTo);
                     this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
                     GetComponent<CanvasGroup>().blocksRaycasts = true;
                     this.GetComponent<Draggable>().enabled = false;
-                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
-                    this.GetComponent<Image>().sprite = blankCard;
-                    Destroy(placeholder);
-                }
-                else
-                {
-                    this.transform.SetParent(parentToReturnTo);
-                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                    GetComponent<CanvasGroup>().blocksRaycasts = true;
-                    this.GetComponent<Draggable>().enabled = false;
-                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
-                    this.GetComponent<Image>().sprite = blankCard;
-                    Destroy(placeholder);
-                }
-            }
-        }
-        else if (zone == DropZone.DropZoneType.tempZone)
-        {
-            Debug.Log("in function zone");
-            if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser" && this.tag != "FCard")
-            {
-                this.transform.SetParent(originParent.transform);
-                this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                GetComponent<CanvasGroup>().blocksRaycasts = true;
-                Destroy(placeholder);
-            }
-            else
-            {
-                Scene scene = SceneManager.GetActiveScene();
-                if (scene.name == "spGameBoard")
-                {
-                    Debug.Log(scene.name);
-                    this.transform.SetParent(parentToReturnTo);
-                    this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
-                    GetComponent<CanvasGroup>().blocksRaycasts = true;
-                    this.GetComponent<Draggable>().enabled = false;
-                    Sprite blankCard = Resources.Load<Sprite>("blank_card");
-                    this.GetComponent<Image>().sprite = blankCard;
                     Destroy(placeholder);
                 }
                 else
@@ -265,26 +232,35 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         }
         DropZone.zone = DropZone.DropZoneType.empty;
-        if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
         {
-            //Debug.Log("Disabling Hand");
-            GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = false;
-            //Debug.Log("Disabling TileZone");
-            foreach (Transform child in GameObject.Find("TileZone").transform)
+            if (tileChildCount > GameObject.Find("TileZone").transform.childCount)
             {
-                child.GetComponent<Draggable>().enabled = false;
+                //Debug.Log("Disabling Hand");
+                GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = false;
+                //Debug.Log("Disabling TileZone");
+                foreach (Transform child in GameObject.Find("TileZone").transform)
+                {
+                    child.GetComponent<Draggable>().enabled = false;
+                }
+                //Debug.Log("Disabling Run Function");
+                GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
             }
-            //Debug.Log("Disabling Run Function");
-            GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
-        }
-        if (handChildCount > GameObject.Find("Hand").transform.childCount)
-        {
-            //Debug.Log("Disabling TileZone");
-            foreach (Transform child in GameObject.Find("TileZone").transform)
+
+            if (handChildCount > GameObject.Find("Hand").transform.childCount)
             {
-                child.GetComponent<Draggable>().enabled = false;
+                //Debug.Log("Disabling TileZone");
+                Scene scene = SceneManager.GetActiveScene();
+                if (scene.name != "spgameBoard2")
+                {
+                    foreach (Transform child in GameObject.Find("TileZone").transform)
+                    {
+                        child.GetComponent<Draggable>().enabled = false;
+                    }
+                }
+                GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
             }
-            GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = false;
         }
     }	
 }

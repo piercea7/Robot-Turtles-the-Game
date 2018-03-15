@@ -12,9 +12,9 @@ public class runFunc : MonoBehaviour {
     int numPlayers = ButtonManager.numPlayers;
     void sendToStart(GameObject t1, GameObject t2, int numPlayers, int north)
     {
-        Debug.Log("in sendToStart");
-        Debug.Log("t1.name = " + t1.name);
-        Debug.Log("t2.name = " + t2.name);
+        //Debug.Log("in sendToStart");
+        //Debug.Log("t1.name = " + t1.name);
+        //Debug.Log("t2.name = " + t2.name);
         if (numPlayers == 4)
         {
             if (t1.transform.name == "Turtle0(Clone)")
@@ -126,33 +126,33 @@ public class runFunc : MonoBehaviour {
     {
         if (cp == 0)
         {
-            Debug.Log("found player 0");
+            //Debug.Log("found player 0");
             ButtonManager.winner = "player 0";
             
-            GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
+            //GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = "0";
             return GameObject.Find("Turtle0(Clone)");
         }
         else if (cp == 1)
         {
-            Debug.Log("found player 1");
+            //Debug.Log("found player 1");
             ButtonManager.winner = "player 1";
-            GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
+            //GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = "0";
             return GameObject.Find("Turtle1(Clone)");
         }
         else if (cp == 2)
         {
-            Debug.Log("found player 2");
+            //Debug.Log("found player 2");
             
             ButtonManager.winner = "player 2";
-            GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
+            //GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = "0";
             return GameObject.Find("Turtle2(Clone)");
         }
         else
         {
-            Debug.Log("found player 3");
+            //Debug.Log("found player 3");
             
             ButtonManager.winner = "player 3";
-            GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
+            //GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = "0";
             return GameObject.Find("Turtle3(Clone)");
         }
     }
@@ -161,19 +161,19 @@ public class runFunc : MonoBehaviour {
         if (curRot.z == north)
         {
             GameObject newPos = GameObject.Find((parent - 8).ToString());
-            Debug.Log("newPos = " + newPos.transform.name);
+            //Debug.Log("newPos = " + newPos.transform.name);
             if (parent > 8)
             {
                 if (newPos.transform.childCount == 0) { curPlayer.transform.SetParent(newPos.transform); }
                 else if (newPos.transform.childCount > 0)
                 {
                     Transform c = newPos.transform.GetChild(0);
-                    Debug.Log("c.tag = " + c.tag);
+                    //Debug.Log("c.tag = " + c.tag);
                     if (c.tag == "Turtle") { sendToStart(c.gameObject, curPlayer, numPlayers, north); } //send both turtles to spawn location
                     else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                     else if (c.tag == "Gem")
                     {
-                        Debug.Log("found gem");
+                        //Debug.Log("found gem");
                         curPlayer.transform.SetParent(newPos.transform);
                         SceneManager.LoadScene("Win");
                         //WIN SCREEN GOES HERE
@@ -205,7 +205,7 @@ public class runFunc : MonoBehaviour {
                     else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                     else if (c.tag == "Gem")
                     {
-                        Debug.Log("found gem");
+                        //Debug.Log("found gem");
                         curPlayer.transform.SetParent(newPos.transform);
                         SceneManager.LoadScene("Win");
                         //WIN SCREEN GOES HERE
@@ -237,7 +237,7 @@ public class runFunc : MonoBehaviour {
                     else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                     else if (c.tag == "Gem")
                     {
-                        Debug.Log("found gem");
+                        //Debug.Log("found gem");
                         curPlayer.transform.SetParent(newPos.transform);
                         SceneManager.LoadScene("Win");
                         //WIN SCREEN GOES HERE
@@ -269,7 +269,7 @@ public class runFunc : MonoBehaviour {
                     else if (c.tag == "SolidWall" || c.tag == "IceWall") { curPlayer.transform.transform.eulerAngles = (new Vector3(0, 0, south)); }
                     else if (c.tag == "Gem")
                     {
-                        Debug.Log("found gem");
+                        //Debug.Log("found gem");
                         curPlayer.transform.SetParent(newPos.transform);
                         SceneManager.LoadScene("Win");
                         //WIN SCREEN GOES HERE
@@ -464,14 +464,14 @@ public class runFunc : MonoBehaviour {
     }
     public void runFunct(int cp)
     {
-        Debug.Log("looking for player " + cp);
+        //Debug.Log("looking for player " + cp);
         GameObject curPlayer = findCurPlayer(cp);
         GameObject hand = GameObject.Find("Function");
         numPlayers = ButtonManager.numPlayers;
 
         foreach (Transform child in hand.transform)
         {
-            Debug.Log("child count = " + hand.transform.childCount);
+            //Debug.Log("child count = " + hand.transform.childCount);
             int parent = Convert.ToInt32(curPlayer.transform.parent.name);
             Vector3 curRot = curPlayer.transform.transform.eulerAngles;
             Debug.Log("curRot = " + curRot);
@@ -492,24 +492,29 @@ public class runFunc : MonoBehaviour {
             {
                fireLaser(curPlayer, parent, curRot);
             }
-            else if (tag == "Function")
+            else if (tag == "FCard")
             {
+                Debug.Log("trying to run function card");
                 GameObject FCard = GameObject.Find("FCard");
+                Debug.Log(FCard.transform.childCount);
                 foreach (Transform c in FCard.transform)
                 {
-                    if (tag == "Forward")
+                    parent = Convert.ToInt32(curPlayer.transform.parent.name);
+                    curRot = curPlayer.transform.transform.eulerAngles;
+                    Debug.Log(c.tag);
+                    if (c.tag == "Forward")
                     {
                         moveForward(curPlayer, parent, curRot);
                     }
-                    else if (tag == "Left")
+                    else if (c.tag == "Left")
                     {
                         turn(curPlayer, 0, curRot);
                     }
-                    else if (tag == "Right")
+                    else if (c.tag == "Right")
                     {
                         turn(curPlayer, 1, curRot);
                     }
-                    else if (tag == "Laser")
+                    else if (c.tag == "Laser")
                     {
                         fireLaser(curPlayer, parent, curRot);
                     }

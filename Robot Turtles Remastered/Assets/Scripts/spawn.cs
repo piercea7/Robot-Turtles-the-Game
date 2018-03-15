@@ -61,20 +61,38 @@ public class spawn : MonoBehaviour {
         string curPlayer = hand.transform.parent.name;
         int curP = -1;
         curP = getCurPlayer(curPlayer);
-        Debug.Log("drawing cards for player " + curP);
+        //Debug.Log("drawing cards for player " + curP);
         int i = hand.transform.childCount;
         while (i < 5)
         {
-            if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0)// && cardManager[curP, 4] == 0)
+            int c;
+            Scene scene = SceneManager.GetActiveScene();
+            if (scene.name == "spgameBoard2")
             {
-                cardManager[curP, 0] = 18;
-                cardManager[curP, 1] = 8;
-                cardManager[curP, 2] = 8;
-                cardManager[curP, 3] = 5;
-                cardManager[curP, 4] = 5;
+                if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 4] == 0)
+                {
+                    cardManager[curP, 0] = 18;
+                    cardManager[curP, 1] = 8;
+                    cardManager[curP, 2] = 8;
+                    cardManager[curP, 3] = 5;
+                    cardManager[curP, 4] = 5;
+                }
+                //Debug.Log("spawning cards");
+                c = UnityEngine.Random.Range(0, 5);
             }
-            Debug.Log("spawning cards");
-            int c = UnityEngine.Random.Range(0, 4);
+            else
+            {
+                if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0)
+                {
+                    cardManager[curP, 0] = 18;
+                    cardManager[curP, 1] = 8;
+                    cardManager[curP, 2] = 8;
+                    cardManager[curP, 3] = 5;
+                    cardManager[curP, 4] = 5;
+                }
+                //Debug.Log("spawning cards");
+                c = UnityEngine.Random.Range(0, 4);
+            }
             if (c == 0)
             {
                 
@@ -84,7 +102,7 @@ public class spawn : MonoBehaviour {
                     GameObject forward = (GameObject)Instantiate(Resources.Load("Forward"));
                     forward.transform.SetParent(hand.transform);
                     cardManager[curP, 0] = cardManager[curP, 0] - 1;
-                    Debug.Log("forward cards left " + cardManager[curP, 0]);
+                    //Debug.Log("forward cards left " + cardManager[curP, 0]);
                     i++;
                 }
 
@@ -97,7 +115,7 @@ public class spawn : MonoBehaviour {
                     GameObject left = (GameObject)Instantiate(Resources.Load("Left"));
                     left.transform.SetParent(hand.transform);
                     cardManager[curP, 1] = cardManager[curP, 1] - 1;
-                    Debug.Log("left cards left " + cardManager[curP, 1]);
+                    //Debug.Log("left cards left " + cardManager[curP, 1]);
                     i++;
                 }
             }
@@ -109,20 +127,23 @@ public class spawn : MonoBehaviour {
                     GameObject right = (GameObject)Instantiate(Resources.Load("Right"));
                     right.transform.SetParent(hand.transform);
                     cardManager[curP, 2] = cardManager[curP, 2] - 1;
-                    Debug.Log("right cards left " + cardManager[curP, 2]);
+                    //Debug.Log("right cards left " + cardManager[curP, 2]);
                     i++;
                 }
             }
             else if (c == 3)
             {
                 //spawn laser
-                if (cardManager[curP, 3] > 0)
+                if (scene.name != "spgameBoard2")
                 {
-                    GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
-                    laser.transform.SetParent(hand.transform);
-                    cardManager[curP, 3] = cardManager[curP, 3] - 1;
-                    Debug.Log("laser cards left " + cardManager[curP, 3]);
-                    i++;
+                    if (cardManager[curP, 3] > 0)
+                    {
+                        GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
+                        laser.transform.SetParent(hand.transform);
+                        cardManager[curP, 3] = cardManager[curP, 3] - 1;
+                        //Debug.Log("laser cards left " + cardManager[curP, 3]);
+                        i++;
+                    }
                 }
             }
             else if (c == 4)
@@ -130,15 +151,16 @@ public class spawn : MonoBehaviour {
                 //spawn function card
                 if (cardManager[curP, 4] > 0)
                 {
-                    GameObject FCard = (GameObject)Instantiate(Resources.Load("FunctionCard"));
+                    GameObject FCard = (GameObject)Instantiate(Resources.Load("FuncCard"));
                     FCard.transform.SetParent(hand.transform);
                     cardManager[curP, 4] = cardManager[curP, 4] - 1;
-                    Debug.Log("function cards left " + cardManager[curP, 3]);
+                    //Debug.Log("function cards left " + cardManager[curP, 3]);
                     i++;
                 }
             }
         }
     }
+    public void drawBut() { drawCards(); }
 
 
 	void Start(){
@@ -149,18 +171,26 @@ public class spawn : MonoBehaviour {
     void startController(int numPlayers)
     {
         GameObject cp = GameObject.Find("player0");
-        cp = GameObject.Find("player1");
-        cp.SetActive(false);
-        cp = GameObject.Find("player2");
-        cp.SetActive(false);
-        cp = GameObject.Find("player3");
-        cp.SetActive(false);
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "spgameBoard2")
+        {
+            cp = GameObject.Find("player1");
+            cp.SetActive(false);
+            cp = GameObject.Find("player2");
+            cp.SetActive(false);
+            cp = GameObject.Find("player3");
+            cp.SetActive(false);
+        }
     }
 
     public void SwitchTurn(int curPlayer)
     {
         foreach (Transform child in GameObject.Find("Hand").transform) { child.GetComponent<Draggable>().enabled = true; }
-        foreach (Transform child in GameObject.Find("TileZone").transform) { child.GetComponent<Draggable>().enabled = true; }
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "spgameBoard2")
+        {
+            foreach (Transform child in GameObject.Find("TileZone").transform) { child.GetComponent<Draggable>().enabled = true; }
+        }
         GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = true;
         GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = true;
         if (numPlayers == 4)

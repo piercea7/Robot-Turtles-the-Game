@@ -524,6 +524,11 @@ public class runFunc : MonoBehaviour {
         }
         spawn s = new spawn();
         Debug.Log("end runFunc");
+        Scene sc = SceneManager.GetActiveScene();
+        if (sc.name != "spgameBoard2")
+        {
+            spawn.updateStats();
+        }
         s.SwitchTurn(cp);
         /*
             1   2   3   4   5   6   7   8

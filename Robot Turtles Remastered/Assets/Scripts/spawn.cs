@@ -57,6 +57,11 @@ public class spawn : MonoBehaviour {
     }
     static public void drawCards()
     {
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
         GameObject hand = GameObject.Find("Hand");
         string curPlayer = hand.transform.parent.name;
         int curP = -1;
@@ -159,6 +164,11 @@ public class spawn : MonoBehaviour {
                 }
             }
         }
+        s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
     }
     public void drawBut() { drawCards(); }
 
@@ -182,9 +192,41 @@ public class spawn : MonoBehaviour {
             cp.SetActive(false);
         }
     }
+    public static void updateStats()
+    {
+        GameObject p = GameObject.Find("Game_Area");
+        foreach (Transform c in p.transform)
+        {
+            if (c.name == "player0")
+            {
+                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
+                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+            }
+            if (c.name == "player1")
+            {
+                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
+                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+            }
+            if (ButtonManager.numPlayers > 2 && c.name == "player2")
+            {
+                GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
+                GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+            }
+            if (ButtonManager.numPlayers > 3 && c.name == "player3")
+            {
+                GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
+                GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+            }
+        }
+    }
 
     public void SwitchTurn(int curPlayer)
     {
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
         foreach (Transform child in GameObject.Find("Hand").transform) { child.GetComponent<Draggable>().enabled = true; }
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name != "spgameBoard2")
@@ -304,6 +346,11 @@ public class spawn : MonoBehaviour {
                 cp.SetActive(false);
                 drawCards();
             }
+        }
+        s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
         }
     }
 

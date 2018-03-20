@@ -29,7 +29,7 @@ public class Launcher : PunBehaviour
     /// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
     /// </summary>  
     [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-    public byte MaxPlayersPerRoom = 2;
+    public byte MaxPlayersPerRoom = 4;
 
     [Tooltip("The Ui Panel to let the user enter name, connect and play")]
     public GameObject controlPanel;
@@ -139,7 +139,7 @@ public class Launcher : PunBehaviour
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
         //Could not find room, fine I'll make my own... with blackjack and hookers
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { maxPlayers = MaxPlayersPerRoom }, null);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
     }
 
     public override void OnJoinedRoom()
@@ -147,14 +147,14 @@ public class Launcher : PunBehaviour
         Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
         // #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
-        if (PhotonNetwork.room.playerCount == 1)
+        if (PhotonNetwork.room.PlayerCount == 1)
         {
             Debug.Log("We load the 'Room for 1' ");
 
 
             // #Critical
             // Load the Room Level.
-            PhotonNetwork.LoadLevel("BattleGround");
+            PhotonNetwork.LoadLevel("NetworkGameBoard");
         }
     }
 

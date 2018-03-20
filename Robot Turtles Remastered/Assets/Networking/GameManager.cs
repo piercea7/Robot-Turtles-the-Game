@@ -19,7 +19,7 @@ public class GameManager : PunBehaviour{
     /// </summary>
     public override void OnLeftRoom()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("MainMenu");
     }
 
     public override void OnPhotonPlayerConnected(PhotonPlayer other)
@@ -77,7 +77,7 @@ public class GameManager : PunBehaviour{
                 loadedLobby = true;
 
                 ButtonManager.numPlayers = PhotonNetwork.room.PlayerCount;
-                PhotonNetwork.LoadLevel("gameBoard");
+                PhotonNetwork.LoadLevel("NetworkGameBoard");
             
         }
     }

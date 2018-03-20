@@ -2,34 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Unitycoding.UIWidgets;
 
 public class exitMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
-	}
+        //EditorUtility.DisplayDialog("Place Selection On Surface?", "Are you sure you want to place 5 on the surface?", "Place", "Do Not Place"));
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
 
-    public class ShowPopupExample : EditorWindow
+    public class MessageBoxExample : MonoBehaviour
     {
-        [MenuItem("Example/ShowPopup Example")]
-        static void Init()
+        //Reference of the MessageBox instance
+        private MessageBox messageBox;
+
+        // Use this for initialization
+        private void Start()
         {
-            ShowPopupExample window = ScriptableObject.CreateInstance<ShowPopupExample>();
-            window.position = new Rect(Screen.width / 2, Screen.height / 2, 250, 150);
-            window.ShowPopup();
+            //Find message box with name "MessageBox"
+            messageBox = UIUtility.Find("MessageBox");
+            //Check if messageBox with the name exists in scene
+            if (messageBox != null)
+            {
+                //Open the message box with title, text, callback to be called and buttons
+                messageBox.Show("My Title", "My Text", MessageBoxCallback, "Yes", "No", "Cancel");
+            }
         }
 
-        void OnGUI()
+        /// 
+        /// Called when the user clicks one of the provided buttons in the message box
+        /// 
+        private void MessageBoxCallback(string result)
         {
-            EditorGUILayout.LabelField("This is an example of EditorWindow.ShowPopup", EditorStyles.wordWrappedLabel);
-            GUILayout.Space(70);
-            if (GUILayout.Button("Agree!")) this.Close();
+            if (result == "Yes")
+            {// Yes button clicked
+             //Write code for yes
+            }
+            else if (result == "No")
+            { // No button clicked
+              //Write code for no
+            }
+            else
+            {// Cancel button clicked
+             //Write code for cancel if needed
+            }
         }
     }
 }

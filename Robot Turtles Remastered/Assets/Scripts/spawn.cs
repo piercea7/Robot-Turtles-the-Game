@@ -204,7 +204,11 @@ public class spawn : MonoBehaviour {
 
 
 	void Start(){
-        spawnSomethingPlease(numPlayers);
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name != "spgameBoard2")
+        {
+            spawnSomethingPlease(numPlayers);
+        }
         drawCards();
 	}
 	

@@ -26,7 +26,11 @@ public class spawn : MonoBehaviour {
      */
     public static int getCurPlayer(string curPlayer)
     {
-        updateStats();
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
         if (curPlayer == "player0")
         {
             return 0;
@@ -311,7 +315,10 @@ public class spawn : MonoBehaviour {
         }
         GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = true;
         GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = true;
-        updateStats();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
         if (numPlayers == 4)
         {
             drawCards();
@@ -323,6 +330,12 @@ public class spawn : MonoBehaviour {
                 foreach (Transform t in trs)
                 { if (t.name == "player1") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player0Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player1Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 1)
@@ -332,6 +345,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player2") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player1Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player2Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 2)
@@ -341,6 +360,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player3") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player2Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player3Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 3)
@@ -350,6 +375,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player0") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player3Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player0Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
         }
@@ -363,6 +394,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player1") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player0Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player1Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 1)
@@ -372,6 +409,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player2") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player1Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player2Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 2)
@@ -381,6 +424,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player0") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player2Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player0Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
         }
@@ -394,6 +443,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player1") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player0Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player1Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
             else if (curPlayer == 1)
@@ -403,6 +458,12 @@ public class spawn : MonoBehaviour {
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
                 foreach (Transform t in trs) { if (t.name == "player0") { t.gameObject.SetActive(true); } }
                 cp.SetActive(false);
+                GameObject st = GameObject.Find("Stats");
+                GameObject.Find("Player1Highlight").SetActive(false);
+                foreach (Transform stc in st.transform)
+                {
+                    if (stc.name == "Player0Highlight") { stc.gameObject.SetActive(true); }
+                }
                 drawCards();
             }
         }
@@ -414,6 +475,13 @@ public class spawn : MonoBehaviour {
     }
 
     void spawnSomethingPlease(int numPlayers) {
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            GameObject.Find("Player1Highlight").SetActive(false);
+            GameObject.Find("Player2Highlight").SetActive(false);
+            GameObject.Find("Player3Highlight").SetActive(false);
+        }
         int north = 90;
         if (numPlayers == 4)
         {

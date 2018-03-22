@@ -36,7 +36,7 @@ public class spSpawn : MonoBehaviour {
         while (i < max)
         {
             int c = UnityEngine.Random.Range(9, 57);
-            Debug.Log(c);
+            //Debug.Log(c);
             if (WallPlacement.validPlacement(c))
             {
                 Square_1 = GameObject.Find(c.ToString());

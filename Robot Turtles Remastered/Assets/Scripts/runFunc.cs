@@ -494,14 +494,14 @@ public class runFunc : MonoBehaviour {
             }
             else if (tag == "FCard")
             {
-                Debug.Log("trying to run function card");
+                //Debug.Log("trying to run function card");
                 GameObject FCard = GameObject.Find("FCard");
-                Debug.Log(FCard.transform.childCount);
+                //Debug.Log(FCard.transform.childCount);
                 foreach (Transform c in FCard.transform)
                 {
                     parent = Convert.ToInt32(curPlayer.transform.parent.name);
                     curRot = curPlayer.transform.transform.eulerAngles;
-                    Debug.Log(c.tag);
+                    //Debug.Log(c.tag);
                     if (c.tag == "Forward")
                     {
                         moveForward(curPlayer, parent, curRot);
@@ -523,7 +523,7 @@ public class runFunc : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
         spawn s = new spawn();
-        Debug.Log("end runFunc");
+        //Debug.Log("end runFunc");
         Scene sc = SceneManager.GetActiveScene();
         if (sc.name != "spgameBoard2")
         {

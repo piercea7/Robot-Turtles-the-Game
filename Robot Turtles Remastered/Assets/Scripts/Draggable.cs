@@ -24,7 +24,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             tileChildCount = GameObject.Find("TileZone").transform.childCount;
         }
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
 		placeholder = new GameObject();
         originParent = new GameObject();
         originParent = this.transform.parent.gameObject;
@@ -46,7 +46,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	}
 	
 	public void OnDrag(PointerEventData eventData) {
-        Debug.Log("OnDrag");
+        //Debug.Log("OnDrag");
         this.transform.position = eventData.position;
 
         if(placeholder.transform.parent != placeholderParent)
@@ -74,7 +74,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         DropZone.DropZoneType zone = DropZone.zone;
         //Debug.Log("OnEndDrag");
-        Debug.Log(zone);
+        //Debug.Log(zone);
         if (zone == DropZone.DropZoneType.BoardZone)
         {
             if (this.transform.tag != "SolidWall" && this.transform.tag != "IceWall") { this.transform.SetParent(originParent.transform); }
@@ -97,7 +97,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                     }
                     else
                     {
-                        Debug.Log("Ice wall placed");
+                        //Debug.Log("Ice wall placed");
                         this.transform.SetParent(parentToReturnTo);
                         tileChildCount++;
                     }
@@ -109,7 +109,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Destroy(placeholder);
         } else if (zone == DropZone.DropZoneType.FunctionZone)
         {
-            Debug.Log("in function zone");
+            //Debug.Log("in function zone");
             if (this.tag != "Forward" && this.tag != "Left" && this.tag != "Right" && this.tag != "Laser" && this.tag != "FCard")
             {
                 this.transform.SetParent(originParent.transform);
@@ -119,7 +119,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             } else
             {
                 Scene scene = SceneManager.GetActiveScene();
-                Debug.Log(scene);
+                //Debug.Log(scene);
                 if (scene.name == "spgameBoard2")
                 {
                     Debug.Log(scene.name);

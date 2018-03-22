@@ -26,28 +26,21 @@ public class spawn : MonoBehaviour {
      */
     public static int getCurPlayer(string curPlayer)
     {
+        updateStats();
         if (curPlayer == "player0")
         {
-            //GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-            //GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             return 0;
         }
         else if (curPlayer == "player1")
         {
-            GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-            GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             return 1;
         }
         else if (curPlayer == "player2")
         {
-            GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-            GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             return 2;
         }
         else if (curPlayer == "player3")
         {
-            GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-            GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
             return 3;
         }
         else
@@ -72,15 +65,39 @@ public class spawn : MonoBehaviour {
         {
             int c;
             Scene scene = SceneManager.GetActiveScene();
+            int forwardC = 0;
+            int leftC = 0;
+            int rightC = 0;
+            int functionC = 0;
+            int laserC = 0;
             if (scene.name == "spgameBoard2")
             {
                 if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 4] == 0)
                 {
-                    cardManager[curP, 0] = 18;
-                    cardManager[curP, 1] = 8;
-                    cardManager[curP, 2] = 8;
-                    cardManager[curP, 3] = 5;
-                    cardManager[curP, 4] = 5;
+                    
+                    foreach (Transform child in hand.transform)
+                    {
+                        if (child.tag == "Forward") { forwardC++; }
+                        else if (child.tag == "Left") { leftC++; }
+                        else if (child.tag == "Right") { rightC++; }
+                        else if (child.tag == "Laser") { laserC++; }
+                        else if (child.tag == "FCard") { functionC++; }
+                    }
+                    GameObject func = GameObject.Find("FCard");
+                    foreach (Transform child in func.transform)
+                    {
+                        if (child.tag == "Forward") { forwardC++; }
+                        else if (child.tag == "Left") { leftC++; }
+                        else if (child.tag == "Right") { rightC++; }
+                        else if (child.tag == "Laser") { laserC++; }
+                        else if (child.tag == "FCard") { functionC++; }
+                    }
+
+                    cardManager[curP, 0] = 18 - forwardC;
+                    cardManager[curP, 1] = 8 - leftC;
+                    cardManager[curP, 2] = 8 - rightC;
+                    cardManager[curP, 3] = 5 - laserC;
+                    cardManager[curP, 4] = 5 - functionC;
                 }
                 //Debug.Log("spawning cards");
                 c = UnityEngine.Random.Range(0, 5);
@@ -89,11 +106,20 @@ public class spawn : MonoBehaviour {
             {
                 if (cardManager[curP, 0] == 0 && cardManager[curP, 1] == 0 && cardManager[curP, 2] == 0 && cardManager[curP, 3] == 0)
                 {
-                    cardManager[curP, 0] = 18;
-                    cardManager[curP, 1] = 8;
-                    cardManager[curP, 2] = 8;
-                    cardManager[curP, 3] = 5;
-                    cardManager[curP, 4] = 5;
+                    foreach (Transform child in hand.transform)
+                    {
+                        if (child.tag == "Forward") { forwardC++; }
+                        else if (child.tag == "Left") { leftC++; }
+                        else if (child.tag == "Right") { rightC++; }
+                        else if (child.tag == "Laser") { laserC++; }
+                        else if (child.tag == "FCard") { functionC++; }
+                    }
+
+                    cardManager[curP, 0] = 18 - forwardC;
+                    cardManager[curP, 1] = 8 - leftC;
+                    cardManager[curP, 2] = 8 - rightC;
+                    cardManager[curP, 3] = 5 - laserC;
+                    cardManager[curP, 4] = 5 - functionC;
                 }
                 //Debug.Log("spawning cards");
                 c = UnityEngine.Random.Range(0, 4);
@@ -197,25 +223,75 @@ public class spawn : MonoBehaviour {
         GameObject p = GameObject.Find("Game_Area");
         foreach (Transform c in p.transform)
         {
+            int solidWall = 0;
+            int iceWall = 0;
             if (c.name == "player0")
             {
                 GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
-                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+                foreach (Transform b in c.transform)
+                {
+                    if (b.name == "TileZone")
+                    {
+                        foreach (Transform a in b.transform)
+                        {
+                            if (a.tag == "SolidWall") { solidWall++; }
+                            else if (a.tag == "IceWall") { iceWall++; }
+                        }
+                    }
+                }
+                GameObject.Find("Player0SolidWallsLeft").GetComponent<Text>().text = solidWall.ToString();
+                GameObject.Find("Player0IceWallsLeft").GetComponent<Text>().text = iceWall.ToString();
             }
             if (c.name == "player1")
             {
                 GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
-                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+                foreach (Transform b in c.transform)
+                {
+                    if (b.name == "TileZone")
+                    {
+                        foreach (Transform a in b.transform)
+                        {
+                            if (a.tag == "SolidWall") { solidWall++; }
+                            else if (a.tag == "IceWall") { iceWall++; }
+                        }
+                    }
+                }
+                GameObject.Find("Player1SolidWallsLeft").GetComponent<Text>().text = solidWall.ToString();
+                GameObject.Find("Player1IceWallsLeft").GetComponent<Text>().text = iceWall.ToString();
             }
             if (ButtonManager.numPlayers > 2 && c.name == "player2")
             {
                 GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
-                GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+                foreach (Transform b in c.transform)
+                {
+                    if (b.name == "TileZone")
+                    {
+                        foreach (Transform a in b.transform)
+                        {
+                            if (a.tag == "SolidWall") { solidWall++; }
+                            else if (a.tag == "IceWall") { iceWall++; }
+                        }
+                    }
+                }
+                GameObject.Find("Player2SolidWallsLeft").GetComponent<Text>().text = solidWall.ToString();
+                GameObject.Find("Player2IceWallsLeft").GetComponent<Text>().text = iceWall.ToString();
             }
             if (ButtonManager.numPlayers > 3 && c.name == "player3")
             {
                 GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = c.GetChild(0).childCount.ToString();
-                GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = c.GetChild(1).childCount.ToString();
+                foreach (Transform b in c.transform)
+                {
+                    if (b.name == "TileZone")
+                    {
+                        foreach (Transform a in b.transform)
+                        {
+                            if (a.tag == "SolidWall") { solidWall++; }
+                            else if (a.tag == "IceWall") { iceWall++; }
+                        }
+                    }
+                }
+                GameObject.Find("Player3SolidWallsLeft").GetComponent<Text>().text = solidWall.ToString();
+                GameObject.Find("Player3IceWallsLeft").GetComponent<Text>().text = iceWall.ToString();
             }
         }
     }
@@ -235,13 +311,12 @@ public class spawn : MonoBehaviour {
         }
         GameObject.Find("Function").transform.GetComponent<DropZone>().enabled = true;
         GameObject.Find("runFunctionBUtton").transform.GetComponent<Button>().enabled = true;
+        updateStats();
         if (numPlayers == 4)
         {
             drawCards();
             if (curPlayer == 0)
             {
-                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -252,8 +327,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
-                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -263,8 +336,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 2)
             {
-                GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player2");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -274,8 +345,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 3)
             {
-                GameObject.Find("Player3FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player3WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player3");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -289,8 +358,6 @@ public class spawn : MonoBehaviour {
             drawCards();
             if (curPlayer == 0)
             {
-                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -300,8 +367,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
-                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -311,8 +376,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 2)
             {
-                GameObject.Find("Player2FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player2WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player2");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -326,8 +389,6 @@ public class spawn : MonoBehaviour {
             drawCards();
             if (curPlayer == 0)
             {
-                GameObject.Find("Player0FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player0WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player0");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -337,8 +398,6 @@ public class spawn : MonoBehaviour {
             }
             else if (curPlayer == 1)
             {
-                GameObject.Find("Player1FunctionSize").GetComponent<Text>().text = (GameObject.Find("Function").transform.childCount).ToString();
-                GameObject.Find("Player1WallsLeft").GetComponent<Text>().text = (GameObject.Find("TileZone").transform.childCount).ToString();
                 GameObject cp = GameObject.Find("player1");
                 GameObject cpP = cp.transform.parent.gameObject;
                 Transform[] trs = cpP.GetComponentsInChildren<Transform>(true);
@@ -438,5 +497,12 @@ public class spawn : MonoBehaviour {
         }
         startController(numPlayers);
     }
-    void Update() {	}
+    void Update()
+    {
+        Scene s = SceneManager.GetActiveScene();
+        if (s.name != "spgameBoard2")
+        {
+            updateStats();
+        }
+    }
 }

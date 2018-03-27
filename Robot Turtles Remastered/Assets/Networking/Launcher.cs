@@ -79,8 +79,8 @@ public class Launcher : PunBehaviour
     /// </summary>
     void Start()
     {
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
+        //progressLabel.SetActive(false);
+        //controlPanel.SetActive(true);
 
         // Connect();
     }
@@ -132,8 +132,8 @@ public class Launcher : PunBehaviour
     public override void OnDisconnectedFromPhoton()
     {
         Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
-        progressLabel.SetActive(false);
-        controlPanel.SetActive(true);
+        //progressLabel.SetActive(false);
+        //controlPanel.SetActive(true);
     }
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)

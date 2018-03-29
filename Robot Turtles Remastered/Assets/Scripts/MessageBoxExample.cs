@@ -31,6 +31,15 @@ public class MessageBoxExample : MonoBehaviour {
         {
             SceneManager.LoadScene("MainMenu");
         }
+        else if (result == "Change Resolution")
+        {
+            string[] opt = new string[4];
+            opt[0] = "1920x1080";
+            opt[1] = "1600x900";
+            opt[2] = "1280x720";
+            opt[3] = "800x600";
+            verticalMessageBox.Show(title, message, icon, changeResolution, opt);
+        }
         else
         {
             messageBox.Show("Callback", "Click result: " + result, "OK");
@@ -40,5 +49,10 @@ public class MessageBoxExample : MonoBehaviour {
 	public void ShowVerticalMessageBox(){
         //verticalMessageBox.Show(title,message,icon,null,options);
         verticalMessageBox.Show(title, message, icon, OnMessageBoxResult, options);
+    }
+    private void changeResolution (string reso)
+    {
+        string[] res = reso.Split('x');
+        Screen.SetResolution(int.Parse(res[0]), int.Parse(res[1]), false);
     }
 }

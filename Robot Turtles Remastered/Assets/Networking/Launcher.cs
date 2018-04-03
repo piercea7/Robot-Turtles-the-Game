@@ -79,8 +79,9 @@ public class Launcher : PunBehaviour
     /// </summary>
     void Start()
     {
-        //progressLabel.SetActive(false);
         //controlPanel.SetActive(true);
+        //progressLabel.SetActive(false);
+        
 
         // Connect();
     }
@@ -101,8 +102,8 @@ public class Launcher : PunBehaviour
     {
         // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
         isConnecting = true;
-        progressLabel.SetActive(true);
-        controlPanel.SetActive(false);
+        //progressLabel.SetActive(true);
+        //controlPanel.SetActive(false);
 
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
         if (PhotonNetwork.connected)
